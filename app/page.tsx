@@ -5,16 +5,16 @@ import { Button } from "@/components/ui/button"
 import { database, ref, set, push } from "@/lib/firebase"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { 
-  FaCheckCircle, 
-  FaMobileAlt, 
-  FaUnlock, 
-  FaBolt, 
-  FaDollarSign, 
-  FaSyncAlt, 
-  FaSmile, 
-  FaBullseye, 
-  FaShieldAlt, 
+import {
+  FaCheckCircle,
+  FaMobileAlt,
+  FaUnlock,
+  FaBolt,
+  FaDollarSign,
+  FaSyncAlt,
+  FaSmile,
+  FaBullseye,
+  FaShieldAlt,
   FaRocket,
   FaMapMarkerAlt,
   FaBell,
@@ -66,6 +66,75 @@ const carouselImages = [
   {
     src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/heatmap-s-wnFJkgRs0tdSoUvQiMJSfPxWggnFCC.png",
     alt: "Heatmap showing utilization density and high-traffic zones"
+  }
+]
+
+const technicalFoundationImages = [
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%204.31.49%E2%80%AFPM-cl8QtmN5RA7XCRWRj6M35azAu3mL9V.png",
+    alt: "Rental Buddy integrations configuration page with booking system settings"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%204.29.39%E2%80%AFPM-DftjNSzYbdETF5OPYeDLcaAf5hphXN.png",
+    alt: "Fleet tracking map view showing active vehicles across North America"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%204.30.17%E2%80%AFPM-Pt75wjlxhVtL08DaRD89THPfg7SJTC.png",
+    alt: "Vehicle information dashboard showing fuel level, odometer, and battery status"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%204.33.36%E2%80%AFPM-irAzi8RsdwHIJUzLmAOQk5JmoZUSTQ.png",
+    alt: "Vehicles management page with lock control functionality"
+  }
+]
+
+const pickupCarouselImages = [
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%204.31.49%E2%80%AFPM-cl8QtmN5RA7XCRWRj6M35azAu3mL9V.png",
+    alt: "Rental Buddy integrations configuration page with booking system settings"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%204.29.39%E2%80%AFPM-DftjNSzYbdETF5OPYeDLcaAf5hphXN.png",
+    alt: "Fleet tracking map view showing active vehicles across North America"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%204.30.17%E2%80%AFPM-Pt75wjlxhVtL08DaRD89THPfg7SJTC.png",
+    alt: "Vehicle information dashboard showing fuel level, odometer, and battery status"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%204.33.36%E2%80%AFPM-irAzi8RsdwHIJUzLmAOQk5JmoZUSTQ.png",
+    alt: "Vehicles management page with lock control functionality"
+  }
+]
+
+const pickupJourneyImages = [
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%205.03.32%E2%80%AFPM-N8wgrCFBOkL2GST91myPxDEgIb1vJD.png",
+    alt: "Welcome screen - Reservation confirmation"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%205.04.03%E2%80%AFPM-ScoOgAyOqDxM8VyChz4EZBhDLOFKQd.png",
+    alt: "ID Verification - Driver license photo capture"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%205.06.44%E2%80%AFPM-34ZsGoPFBB6dZtoPEPPxlTo8mH2Tik.png",
+    alt: "Insurance - Coverage options selection"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%205.09.00%E2%80%AFPM-ywoeh6nM54QsTApBrp84unQAgIqZoB.png",
+    alt: "Vehicle Access - Key box code display"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%205.07.29%E2%80%AFPM-mDqaGeiytTuUw2amgIahaDGJsy3Mbv.png",
+    alt: "Contract Signature - Digital signature capture"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%205.11.01%E2%80%AFPM-TBGaxBfhCCTQAEBNuDGFUYpwL5TxVv.png",
+    alt: "Success - Vehicle unlocked confirmation"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-07-26%20at%205.07.47%E2%80%AFPM-usr6DOroXSHc6hop3o28eusxIK9AL2.png",
+    alt: "Onboarding Video - Instructional content"
   }
 ]
 
@@ -127,8 +196,8 @@ const productSubTabs = [
   },
   {
     id: "master-operator",
-    title: "Master Operator",
-    tabLine1: "Master Operator",
+    title: "Shakkii",
+    tabLine1: "Shakkii",
   },
 ]
 
@@ -169,20 +238,21 @@ const WorkshopChecklist = () => {
   );
 };
 
-
-export default function PresentationPage() {
+export default function Page() {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [currentSubTab, setCurrentSubTab] = useState(0)
   const [showWelcome, setShowWelcome] = useState(true)
-  const [companyName, setCompanyName] = useState("")
+  const [companyName, setCompanyName] = useState('')
   const [presentationDate, setPresentationDate] = useState(
     new Date().toISOString().split('T')[0]
   )
   const [sessionId, setSessionId] = useState<string | null>(null)
-
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [currentSubTab, setCurrentSubTab] = useState(0)
   const [carouselIndex, setCarouselIndex] = useState(0)
+  const [techFoundationIndex, setTechFoundationIndex] = useState(0)
+  const [pickupCarouselIndex, setPickupCarouselIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
-  
+  const [lightboxSource, setLightboxSource] = useState<'spatial' | 'technical' | 'pickup' | 'pickupJourney' | 'seeItInAction'>('spatial')
+
   // Auto-play carousel every 4 seconds
   useEffect(() => {
     const autoPlayInterval = setInterval(() => {
@@ -192,7 +262,17 @@ export default function PresentationPage() {
     return () => clearInterval(autoPlayInterval)
   }, [])
   
+  useEffect(() => {
+    const autoPlayInterval = setInterval(() => {
+      setTechFoundationIndex((prev) => (prev + 1) % technicalFoundationImages.length)
+    }, 4000)
+
+    return () => clearInterval(autoPlayInterval)
+  }, [])
+
   const [trackingOptionsOpen, setTrackingOptionsOpen] = useState(false)
+  const [pickupDropoffOpen, setPickupDropoffOpen] = useState(false)
+  const [pricingOpen, setPricingOpen] = useState(false)
   const [trackingEssentials, setTrackingEssentials] = useState({
     gpsLocation: true,
     alerts: true,
@@ -245,6 +325,42 @@ export default function PresentationPage() {
     setCarouselIndex((prev) => (prev - 1 + carouselImages.length) % carouselImages.length)
   }
   
+  const nextTechFoundationImage = () => {
+    setTechFoundationIndex((prev) => (prev + 1) % technicalFoundationImages.length)
+  }
+
+  const prevTechFoundationImage = () => {
+    setTechFoundationIndex((prev) => (prev - 1 + technicalFoundationImages.length) % technicalFoundationImages.length)
+  }
+  
+  const nextPickupImage = () => {
+    setPickupCarouselIndex((prev) => (prev + 1) % pickupCarouselImages.length)
+  }
+
+  const prevPickupImage = () => {
+    setPickupCarouselIndex((prev) => (prev - 1 + pickupCarouselImages.length) % pickupCarouselImages.length)
+  }
+
+  const [pickupJourneyIndex, setPickupJourneyIndex] = useState(0)
+
+  // CHANGE: Added new carousel index state and navigation functions for see it in action section
+  const [seeItInActionIndex, setSeeItInActionIndex] = useState(0)
+
+  const nextSeeItInActionImage = () => {
+    setSeeItInActionIndex((prev) => (prev + 1) % pickupJourneyImages.length)
+  }
+
+  const prevSeeItInActionImage = () => {
+    setSeeItInActionIndex((prev) => (prev - 1 + pickupJourneyImages.length) % pickupJourneyImages.length)
+  }
+
+  const nextPickupJourneyImage = () => {
+    setPickupJourneyIndex((prev) => (prev + 1) % pickupJourneyImages.length)
+  }
+
+  const prevPickupJourneyImage = () => {
+    setPickupJourneyIndex((prev) => (prev - 1 + pickupJourneyImages.length) % pickupJourneyImages.length)
+  }
 
   useEffect(() => {
     if (!lightboxOpen) return
@@ -253,15 +369,35 @@ export default function PresentationPage() {
       if (e.key === 'Escape') {
         setLightboxOpen(false)
       } else if (e.key === 'ArrowRight') {
-        nextCarouselImage()
+        if (lightboxSource === 'spatial') {
+          nextCarouselImage()
+        } else if (lightboxSource === 'technical') {
+          nextTechFoundationImage()
+        } else if (lightboxSource === 'pickup') {
+          nextPickupImage()
+        } else if (lightboxSource === 'seeItInAction') {
+          nextSeeItInActionImage()
+        } else { // lightboxSource === 'pickupJourney'
+          nextPickupJourneyImage()
+        }
       } else if (e.key === 'ArrowLeft') {
-        prevCarouselImage()
+        if (lightboxSource === 'spatial') {
+          prevCarouselImage()
+        } else if (lightboxSource === 'technical') {
+          prevTechFoundationImage()
+        } else if (lightboxSource === 'pickup') {
+          prevPickupImage()
+        } else if (lightboxSource === 'seeItInAction') {
+          prevSeeItInActionImage()
+        } else { // lightboxSource === 'pickupJourney'
+          prevPickupJourneyImage()
+        }
       }
     }
 
     window.addEventListener('keydown', handleLightboxKeyDown)
     return () => window.removeEventListener('keydown', handleLightboxKeyDown)
-  }, [lightboxOpen, carouselIndex])
+  }, [lightboxOpen, carouselIndex, techFoundationIndex, pickupCarouselIndex, pickupJourneyIndex, seeItInActionIndex, lightboxSource])
   
 
   const handleStartPresentation = async () => {
@@ -601,70 +737,95 @@ export default function PresentationPage() {
                       </div>
                     </div>
 
-                    <div className="text-center mt-8 md:mt-10 mb-4 md:mb-6">
-                      <h3 className="text-3xl sm:text-4xl font-bold text-primary leading-tight">
+                    {/* CHANGE: Added What You Unlock section to 360 Sierra page */}
+                    <div className="mt-10 md:mt-16">
+                      <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-6 md:mb-10 text-primary">
                         What You Unlock
                       </h3>
-                    </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
+                        <div className="flex items-center gap-3 md:gap-4 justify-center">
+                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">+40% Efficiency</p>
+                        </div>
+                        
+                        <div className="flex items-center gap-3 md:gap-4 justify-center">
+                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">+60% Consistency</p>
+                        </div>
+                        
+                        <div className="flex items-center gap-3 md:gap-4 justify-center">
+                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">2x Scalability</p>
+                        </div>
+                      </div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-12 text-base md:text-2xl font-bold text-foreground py-4">
-                      <div className="flex items-center gap-2 md:gap-3">
-                        <FaCheckCircle className="text-accent text-xl md:text-3xl" />
-                        <span>+40% Efficiency</span>
-                      </div>
-                      <div className="flex items-center gap-2 md:gap-3">
-                        <FaCheckCircle className="text-accent text-xl md:text-3xl" />
-                        <span>+60% Consistency</span>
-                      </div>
-                      <div className="flex items-center gap-2 md:gap-3">
-                        <FaCheckCircle className="text-accent text-xl md:text-3xl" />
-                        <span>2x Scalability</span>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-secondary p-6 sm:p-8 rounded-xl md:rounded-2xl border border-border shadow-md mt-6 md:mt-8">
-                      <div className="text-center mb-6 md:mb-8">
-                        <h3 className="text-3xl sm:text-4xl font-bold mb-2 md:mb-3 text-primary leading-tight">
+                      <div className="bg-secondary p-6 sm:p-8 md:p-10 rounded-xl md:rounded-2xl border border-border shadow-lg">
+                        <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-4 md:mb-6 text-primary">
                           A Single Source of Truth
                         </h3>
-                        <p className="text-xl sm:text-2xl text-foreground font-semibold">
+                        <p className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6 text-foreground">
                           for Your Vehicle Rental Operations
                         </p>
-                      </div>
-                      
-                      <div className="flex flex-col gap-6 md:gap-8">
-                        <p className="font-bold text-foreground mb-4 md:mb-6 text-xl sm:text-2xl text-center">Our AI-Ready Platform | Beyond SaaS</p>
-                        <div className="flex items-center justify-center gap-6 md:gap-8 flex-wrap">
-                          <img 
-                            src="/images/design-mode/1.%20RCMLOGO.png" 
-                            alt="Rental Car Manager" 
-                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
-                          />
-                          <img 
-                            src="/images/design-mode/Wheelbase-Primary-RGB%2015000%20copy.webp" 
-                            alt="Wheelbase" 
-                            className="h-6 sm:h-8 object-contain hover:scale-110 transition-transform duration-300 max-w-[120px]"
-                          />
-                          <img 
-                            src="/images/design-mode/slack-download.png" 
-                            alt="Slack" 
-                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
-                          />
-                          <img 
-                            src="/images/design-mode/4.%20WHATSAPP%20LOGO.jpeg" 
-                            alt="WhatsApp" 
-                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
-                          />
-                          <img 
-                            src="/images/design-mode/image.png" 
-                            alt="Google" 
-                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
-                          />
-                          <img 
-                            src="/images/design-mode/image(1).png" 
-                            alt="ChatGPT" 
-                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
-                          />
+                        <p className="text-lg sm:text-xl md:text-2xl font-semibold text-center mb-6 md:mb-8 text-foreground">
+                          Our AI-Ready Platform | Beyond SaaS
+                        </p>
+                        
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 md:gap-6 items-center justify-items-center">
+                          <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm flex items-center justify-center w-full h-20 md:h-24">
+                            <img 
+                              src="/images/design-mode/rental-car-manager-logo.jpg" 
+                              alt="Rental Car Manager" 
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
+                          <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm flex items-center justify-center w-full h-20 md:h-24">
+                            <img 
+                              src="/images/design-mode/wheelbase-logo.jpg" 
+                              alt="Wheelbase" 
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
+                          <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm flex items-center justify-center w-full h-20 md:h-24">
+                            <img 
+                              src="/images/design-mode/slack-logo.jpg" 
+                              alt="Slack" 
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
+                          <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm flex items-center justify-center w-full h-20 md:h-24">
+                            <img 
+                              src="/images/design-mode/whatsapp-logo.jpg" 
+                              alt="WhatsApp" 
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
+                          <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm flex items-center justify-center w-full h-20 md:h-24">
+                            <img 
+                              src="/images/design-mode/google-logo.jpg" 
+                              alt="Google" 
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
+                          <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm flex items-center justify-center w-full h-20 md:h-24">
+                            <img 
+                              src="/images/design-mode/openai-logo.jpg" 
+                              alt="OpenAI" 
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -741,7 +902,7 @@ export default function PresentationPage() {
                                   6
                                 </div>
                                 <div className="font-bold text-foreground text-sm sm:text-lg mb-1 md:mb-2">Post-Trip</div>
-                                <div className="text-xs sm:text-sm text-primary-foreground bg-primary px-2 py-1 rounded-lg border border-primary inline-block font-semibold">Master Operator</div>
+                                <div className="text-xs sm:text-sm text-primary-foreground bg-primary px-2 py-1 rounded-lg border border-primary inline-block font-semibold">Shakkii</div>
                               </div>
                             </div>
                           </div>
@@ -797,6 +958,7 @@ export default function PresentationPage() {
                           </div>
                         </div>
 
+                        {/* CHANGE: Added the "What You Unlock" section */}
                         
                       </div>
                     </div>
@@ -858,69 +1020,61 @@ export default function PresentationPage() {
 
                           <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
                             <h3 className="text-xl sm:text-2xl font-bold mb-4 md:mb-5 text-foreground">What Makes It Different</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              <div className="bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
-                                <div className="flex items-start gap-2 mb-2">
-                                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-md">
+                            <div className="space-y-4">
+                              <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm">
+                                <div className="flex items-start gap-3 mb-2">
+                                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold shadow-md">
                                     1
                                   </span>
-                                  <h4 className="text-xs sm:text-base font-bold text-foreground leading-tight">Branch & Fleet Strategy</h4>
+                                  <h4 className="text-base sm:text-lg font-bold text-foreground leading-tight">Delay & No-Return Detection</h4>
                                 </div>
-                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed ml-7">
-                                  Use trip data to see where renters go and guide branch and fleet placement.
+                                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed ml-9">
+                                  Catch late or missed returns before they happen.
                                 </p>
                               </div>
 
-                              <div className="bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
-                                <div className="flex items-start gap-2 mb-2">
-                                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-md">
+                              <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm">
+                                <div className="flex items-start gap-3 mb-2">
+                                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold shadow-md">
                                     2
                                   </span>
-                                  <h4 className="text-xs sm:text-base font-bold text-foreground leading-tight">Dynamic Fleet Allocation</h4>
+                                  <h4 className="text-base sm:text-lg font-bold text-foreground leading-tight">Geofence Intention Alerts</h4>
                                 </div>
-                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed ml-7">
-                                  {"Spot demand peaks and rebalance vehicles in real time."}
+                                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed ml-9">
+                                  Know when a renter is heading toward a restricted area.
                                 </p>
                               </div>
 
-                              <div className="bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
-                                <div className="flex items-start gap-2 mb-2">
-                                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-md">
+                              <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm">
+                                <div className="flex items-start gap-3 mb-2">
+                                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold shadow-md">
                                     3
                                   </span>
-                                  <h4 className="text-xs sm:text-base font-bold text-foreground leading-tight">Pricing Intelligence</h4>
+                                  <h4 className="text-base sm:text-lg font-bold text-foreground leading-tight">Customer Journey Insights</h4>
                                 </div>
-                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed ml-7">
-                                  Identify high-traffic zones to adjust prices by region and season.
-                                </p>
-                              </div>
-
-                              <div className="bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
-                                <div className="flex items-start gap-2 mb-2">
-                                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-md">
-                                    4
-                                  </span>
-                                  <h4 className="text-xs sm:text-base font-bold text-foreground leading-tight">Delay & Risk Management</h4>
-                                </div>
-                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed ml-7">
-                                  Detect late or missed returns before they happen.
+                                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed ml-9">
+                                  See where your renters go and understand travel patterns in real time.
                                 </p>
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                        {/* CHANGE: Centered Spatial Operational Data section to remove white space */}
+                        <div className="max-w-3xl mx-auto">
                           <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
                             <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground">{"Spatial Operational Data\n"}</h3>
                             <div 
                               className="relative aspect-video bg-secondary rounded-lg md:rounded-xl overflow-hidden border border-border group cursor-pointer"
-                              onClick={() => setLightboxOpen(true)}
+                              onClick={() => {
+                                setLightboxSource('spatial')
+                                setLightboxOpen(true)
+                              }}
                             >
                               <img 
                                 src={carouselImages[carouselIndex].src || "/placeholder.svg"}
                                 alt={carouselImages[carouselIndex].alt}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                               />
                               
                               {/* Zoom icon indicator */}
@@ -980,40 +1134,9 @@ export default function PresentationPage() {
                               </div>
                             </div>
                           </div>
-                          
-
-                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
-                            <h3 className="text-xl sm:text-2xl font-bold mb-4 md:mb-5 text-foreground">Technical Foundation</h3>
-                            <div className="grid grid-cols-2 gap-3">
-                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
-                                <FaMapMarkerAlt className="text-lg sm:text-2xl text-primary" />
-                                <span className="text-sm sm:text-base text-foreground font-medium">GPS & Geofencing</span>
-                              </div>
-                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
-                                <FaBell className="text-lg sm:text-2xl text-primary" />
-                                <span className="text-sm sm:text-base text-foreground font-medium">Crash & DTC Codes</span>
-                              </div>
-                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
-                                <FaMapMarked className="text-lg sm:text-2xl text-primary" />
-                                <span className="text-sm sm:text-base text-foreground font-medium">Spatial Analysis</span>
-                              </div>
-                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
-                                <FaRobot className="text-lg sm:text-2xl text-primary" />
-                                <span className="text-sm sm:text-base text-foreground font-medium">AI Behavior Models</span>
-                              </div>
-                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
-                                <FaCloud className="text-lg sm:text-2xl text-primary" />
-                                <span className="text-sm sm:text-base text-foreground font-medium">Cloud Storage</span>
-                              </div>
-                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
-                                <FaChartBar className="text-lg sm:text-2xl text-primary" />
-                                <span className="text-sm sm:text-base text-foreground font-medium">12-Month History</span>
-                              </div>
-                            </div>
-                          </div>
                         </div>
 
-                        <div className="bg-card rounded-xl md:rounded-2xl border border-border shadow-lg overflow-hidden">
+                        <div className="bg-card rounded-xl md:rounded-2xl border border-border shadow-lg">
                           <button
                             onClick={() => setTrackingOptionsOpen(!trackingOptionsOpen)}
                             className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
@@ -1108,7 +1231,7 @@ export default function PresentationPage() {
                                       <div className="flex items-center gap-2">
                                         <span className="text-base sm:text-lg text-foreground">{item.label}</span>
                                         <div className="relative inline-block">
-                                          <div className="w-4 h-4 rounded-full border-2 border-muted-foreground text-muted-foreground flex items-center justify-center text-xs font-bold cursor-help peer">
+                                          <div className="w-4 h-4 rounded-full border-2 border-muted-foreground flex items-center justify-center text-xs font-bold cursor-help peer">
                                             ?
                                           </div>
                                           <div className="invisible peer-hover:visible absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl z-10">
@@ -1218,12 +1341,77 @@ export default function PresentationPage() {
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
+                        {/* Replaced static demo placeholder with carousel using the 7 new images */}
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl shadow-md">
                             <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground">See It in Action</h3>
-                            <div className="aspect-video bg-secondary rounded-lg md:rounded-xl flex items-center justify-center border border-border">
-                              <div className="text-center">
-                                <div className="text-4xl sm:text-5xl mb-2 md:mb-3">▶️</div>
-                                <p className="text-base sm:text-lg font-semibold text-foreground">Product Demo</p>
+                            {/* CHANGE: Reduced container size from aspect-[9/16] to max-w-xs and added centering */}
+                            <div 
+                              className="relative max-w-xs mx-auto bg-secondary rounded-lg md:rounded-xl overflow-hidden border border-border group cursor-pointer"
+                              onClick={() => {
+                                setLightboxSource('seeItInAction')
+                                setLightboxOpen(true)
+                              }}
+                            >
+                              <img 
+                                src={pickupJourneyImages[seeItInActionIndex].src || "/placeholder.svg"}
+                                alt={pickupJourneyImages[seeItInActionIndex].alt}
+                                className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105"
+                              />
+                              
+                              {/* Zoom icon indicator */}
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 flex items-center justify-center">
+                                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white/90 rounded-full p-3 shadow-lg">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.35-4.35"></path>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  prevSeeItInActionImage()
+                                }}
+                                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+                                aria-label="Previous image"
+                              >
+                                <ChevronLeft />
+                              </button>
+                              
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  nextSeeItInActionImage()
+                                }}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+                                aria-label="Next image"
+                              >
+                                <ChevronRight />
+                              </button>
+
+                              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                                {pickupJourneyImages.map((_, idx) => (
+                                  <button
+                                    key={idx}
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      setSeeItInActionIndex(idx)
+                                    }}
+                                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                                      idx === seeItInActionIndex 
+                                        ? 'bg-white w-6' 
+                                        : 'bg-white/50 hover:bg-white/75'
+                                    }`}
+                                    aria-label={`Go to image ${idx + 1}`}
+                                  />
+                                ))}
+                              </div>
+
+                              <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                                {seeItInActionIndex + 1} / {pickupJourneyImages.length}
                               </div>
                             </div>
                           </div>
@@ -1250,17 +1438,23 @@ export default function PresentationPage() {
                           </div>
                         </div>
 
+                        {/* CHANGE: Replaced carousel with single mosaic image */}
                         <div className="bg-card p-3 sm:p-4 rounded-xl md:rounded-2xl border border-border shadow-lg">
                           <h3 className="text-3xl sm:text-4xl font-bold mb-3 md:mb-4 text-primary text-center">Complete Digital Journey</h3>
                           <p className="text-base sm:text-xl text-foreground leading-relaxed mb-4 md:mb-5 text-center max-w-4xl mx-auto font-medium">
                             Transform every rental into a guided digital flow from verification to return. 
                             Renters move on their own time, not the branch's.
                           </p>
-                          <img 
-                            src="/images/native-campervans-flow.png" 
-                            alt="Native Campervans rental app flow showing welcome, ID verification, check-in, pick-up, drop-off, and contract signature screens" 
-                            className="w-full rounded-lg shadow-md"
-                          />
+                          
+                          <div className="mb-6 md:mb-8">
+                            <img 
+                              src="/images/design-mode/Product-mosaic2-1.png"
+                              alt="Complete digital journey flow showing all screens from check-in to drop-off"
+                              className="w-full h-auto rounded-lg md:rounded-xl border border-border shadow-lg"
+                            />
+                          </div>
+                          
+                          
                         </div>
 
                         <div>
@@ -1343,7 +1537,7 @@ export default function PresentationPage() {
                         </div>
                       </div>
 
-                      <div className="bg-card rounded-xl md:rounded-2xl border border-border shadow-lg overflow-hidden mt-12 md:mt-16">
+                      <div className="bg-card rounded-xl md:rounded-2xl border border-border shadow-lg overflow-hidden mt-6 md:mt-8">
                         <button
                           onClick={() => setPickupDropoffOpen(!pickupDropoffOpen)}
                           className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
@@ -1458,17 +1652,416 @@ export default function PresentationPage() {
                           </div>
                         </div>
                       </div>
+
+                      <div className="bg-card rounded-xl md:rounded-2xl border border-border shadow-lg overflow-hidden mt-6 md:mt-8">
+                        <button
+                          onClick={() => {
+                            // const currentState = pickupDropoffOpen // This line seems unused, removing it.
+                            setPricingOpen(!pricingOpen)
+                          }}
+                          className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
+                        >
+                          <h3 className="text-xl sm:text-2xl font-bold text-foreground">Pricing</h3>
+                          <svg
+                            className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-300 ${
+                              pricingOpen ? 'rotate-180' : ''
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+
+                        <div
+                          className={`transition-all duration-300 ease-in-out ${
+                            pricingOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+                          } overflow-hidden`}
+                        >
+                          <div className="p-5 sm:p-8">
+                            <div className="overflow-x-auto">
+                              <table className="w-full border-collapse bg-card rounded-lg shadow-sm">
+                                <thead>
+                                  <tr className="bg-secondary border-b-2 border-border">
+                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Tier</th>
+                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Monthly Rentals (range)</th>
+                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Suggested Monthly Fee</th>
+                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Cost per Rental</th>
+                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Notes</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {[
+                                    { tier: 'Tier 1', range: 'Up to 250', fee: '$450', cost: '$1.80', notes: 'Basic plan' },
+                                    { tier: 'Tier 2', range: '251–1,000', fee: '$950', cost: '$0.95', notes: 'Volume discount' },
+                                    { tier: 'Tier 3', range: '1,001–2,000', fee: '$1,500', cost: '$0.75', notes: 'Multi-branch growth' },
+                                    { tier: 'Tier 4', range: '2,001+', fee: 'Starting at $2,500', cost: '$0.60–$0.70', notes: 'Enterprise' },
+                                  ].map((row, idx) => (
+                                    <tr key={idx} className="border-b border-border hover:bg-secondary/30 transition-colors">
+                                      <td className="px-4 py-3 text-sm sm:text-base font-semibold text-primary">{row.tier}</td>
+                                      <td className="px-4 py-3 text-sm sm:text-base text-foreground">{row.range}</td>
+                                      <td className="px-4 py-3 text-sm sm:text-base font-semibold text-foreground">{row.fee}</td>
+                                      <td className="px-4 py-3 text-sm sm:text-base text-foreground">{row.cost}</td>
+                                      <td className="px-4 py-3 text-sm sm:text-base text-muted-foreground">{row.notes}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <div className="mt-4 p-4 bg-secondary/50 rounded-lg border border-border">
+                              <p className="text-sm text-muted-foreground italic">
+                                Billed at the tier that covers your total completed rentals per calendar month. 
+                              </p>
+                            </div>
+
+                            <div className="mt-6 p-6 bg-card rounded-lg border-2 border-primary/30">
+                              <h4 className="text-lg font-bold text-foreground mb-4">What happens if you exceed your tier?</h4>
+                              <div className="space-y-3">
+                                <div className="flex items-start gap-3 p-4 bg-secondary rounded-lg border border-border">
+                                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                                    <FaCheckCircle className="text-primary text-xl" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-semibold text-foreground mb-1">Option A: Move up to the next tier</p>
+                                    <p className="text-xs text-muted-foreground">Upgrade to access the benefits of the next tier level</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-start gap-3 p-4 bg-secondary rounded-lg border border-border">
+                                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+                                    <FaCheckCircle className="text-primary text-xl" />
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-semibold text-foreground mb-1">Option B: Stay in your tier and pay only for the extra rentals</p>
+                                    <p className="text-xs text-muted-foreground">(at the per-rental rate of the tier you are currently in)</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
 
                   {currentSubTab === 3 && (
                     <div className="animate-in fade-in slide-in-from-right duration-500">
-                      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-10 text-primary text-balance">
-                        Rental Buddy Master Operator
-                      </h2>
-                      <p className="text-xl sm:text-2xl md:text-3xl text-primary mb-6 md:mb-10 font-bold">(Shakkiii)</p>
-                      <div className="space-y-4 md:space-y-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
-                        <p>Simplify daily operations with structure and clarity.</p>
+                      <div className="space-y-6 md:space-y-10">
+                        <div className="text-center">
+                          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-6 text-primary text-balance leading-tight">
+                            Rental Buddy Shakkii
+                          </h2>
+                          <p className="text-xl sm:text-2xl text-muted-foreground italic">
+                            The operational brain of your entire rental business
+                          </p>
+                          <p className="text-base sm:text-lg text-muted-foreground mt-2">
+                            The place where data, tasks, and people work together
+                          </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md flex flex-col">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground">Shakkii Intro Video (1 min)</h3>
+                            
+                            <div className="flex-1 bg-black rounded-lg md:rounded-xl overflow-hidden border border-border min-h-[200px] sm:min-h-[300px] flex items-center justify-center">
+                              <p className="text-white text-sm sm:text-base">[Video placeholder - Insert Shakkii intro video]</p>
+                            </div>
+                          </div>
+
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md flex items-center">
+                            <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
+                              {"An agentic Kanban board where every board, list, and card is an AI agent that prioritizes work and moves tasks automatically.\n\nIt becomes the single place where all your data arrives: GPS events, vehicle status, renter actions, and operational workflows, giving your entire team one clear and unified view of operations."}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="bg-card p-6 sm:p-8 rounded-xl md:rounded-2xl border border-border shadow-lg">
+                          <h3 className="text-2xl sm:text-3xl font-bold mb-6 md:mb-8 text-primary text-center">
+                            Core Components
+                          </h3>
+                          
+                          <div className="space-y-6 md:space-y-8">
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <div className="flex items-start gap-3 md:gap-4">
+                                <div className="flex-shrink-0">
+                                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg sm:text-xl font-bold shadow-md">
+                                    1
+                                  </div>
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="text-lg sm:text-xl font-bold text-foreground mb-2 md:mb-3">Agentic Kanban Board</h4>
+                                  <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-3 md:mb-4">
+                                    A live board where every column, card, and workflow is an AI agent.
+                                  </p>
+                                  <ul className="space-y-2 text-sm sm:text-base text-foreground">
+                                    <li className="flex items-start gap-2">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                      <span>Prioritizes work automatically</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                      <span>Highlights what matters today</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                      <span>Flags delays and bottlenecks</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                      <span>Gives full visibility to every team member</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                      <span>Uses Kanban methodology for real-time flow</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                      <span>Reduces manual coordination</span>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <div className="flex items-start gap-3 md:gap-4">
+                                <div className="flex-shrink-0">
+                                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg sm:text-xl font-bold shadow-md">
+                                    2
+                                  </div>
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="text-lg sm:text-xl font-bold text-foreground mb-2 md:mb-3">Form Generator & Operational Modules</h4>
+                                  <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-3 md:mb-4">
+                                    Structured forms that feed AI agents with the exact data they need.
+                                  </p>
+                                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3 mb-3 md:mb-4">
+                                    {['Maintenance', 'Inspections', 'Damage', 'Cleaning', 'Customer interactions', 'Custom processes'].map((item, idx) => (
+                                      <div key={idx} className="bg-card px-3 py-2 rounded-lg border border-border text-sm sm:text-base text-foreground font-medium">
+                                        {item}
+                                      </div>
+                                    ))}
+                                  </div>
+                                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mt-3 md:mt-4">
+                                    Forms become the starting point of automated workflows, creating tasks, assigning work, and triggering actions across the system.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <div className="flex items-start gap-3 md:gap-4">
+                                <div className="flex-shrink-0">
+                                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg sm:text-xl font-bold shadow-md">
+                                    3
+                                  </div>
+                                </div>
+                                <div className="flex-1">
+                                  <h4 className="text-lg sm:text-xl font-bold text-foreground mb-2 md:mb-3">AI Training via Simple Prompts</h4>
+                                  <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-3 md:mb-4">
+                                    Users train each agent with short, guided prompts.
+                                  </p>
+                                  <div className="space-y-2 md:space-y-3">
+                                    <div className="bg-card p-3 sm:p-4 rounded-lg border border-border">
+                                      <p className="text-sm sm:text-base text-foreground italic">
+                                        "When a drop-off happens, create cleaning and inspection tasks."
+                                      </p>
+                                    </div>
+                                    <div className="bg-card p-3 sm:p-4 rounded-lg border border-border">
+                                      <p className="text-sm sm:text-base text-foreground italic">
+                                        "If a vehicle has a DTC code, notify maintenance."
+                                      </p>
+                                    </div>
+                                    <div className="bg-card p-3 sm:p-4 rounded-lg border border-border">
+                                      <p className="text-sm sm:text-base text-foreground italic">
+                                        "Prioritize all units with bookings today."
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mt-3 md:mt-4">
+                                    Every agent learns expectations and handles tasks automatically.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="bg-card p-6 sm:p-8 rounded-xl md:rounded-2xl border border-border shadow-lg">
+                          <h3 className="text-2xl sm:text-3xl font-bold mb-6 md:mb-8 text-primary text-center">Why It Matters</h3>
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-2">
+                                <FaDesktop className="text-primary" />
+                                A single operational source of truth
+                              </h4>
+                              <p className="text-base sm:text-lg text-muted-foreground mb-3">
+                                The Master Operator combines all your data:
+                              </p>
+                              <ul className="space-y-2 text-sm sm:text-base text-foreground">
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>GPS movement & status</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>Renter data</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>Vehicle data</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>Pick-up / drop-off events</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>Internal tasks and workflows</span>
+                                </li>
+                              </ul>
+                              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mt-3 font-semibold">
+                                Everything arrives to one place where your team can take action instantly.
+                              </p>
+                            </div>
+
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-2">
+                                <FaCheckCircle className="text-primary" />
+                                Clarity for every role
+                              </h4>
+                              <ul className="space-y-2 text-sm sm:text-base text-foreground">
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>What needs to be done now</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>What is delayed</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>What is ready</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>What is blocked</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 flex-shrink-0"></span>
+                                  <span>What needs attention today</span>
+                                </li>
+                              </ul>
+                            </div>
+
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-2">
+                                <FaBullseye className="text-primary" />
+                                Better prioritization
+                              </h4>
+                              <p className="text-base sm:text-lg text-muted-foreground">
+                                AI identifies the most important tasks and orders them by urgency, schedule, and impact.
+                              </p>
+                            </div>
+
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-2">
+                                <FaShieldAlt className="text-primary" />
+                                Less chaos. More control.
+                              </h4>
+                              <p className="text-base sm:text-lg text-muted-foreground">
+                                Teams stop guessing and start operating with precision.
+                              </p>
+                            </div>
+
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-2">
+                                <FaExclamationTriangle className="text-primary" />
+                                Bottleneck reduction
+                              </h4>
+                              <p className="text-base sm:text-lg text-muted-foreground">
+                                Master Operator detects slow points and helps teams solve them faster.
+                              </p>
+                            </div>
+
+                            <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                              <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-2">
+                                <FaRocket className="text-primary" />
+                                Operational efficiency
+                              </h4>
+                              <p className="text-base sm:text-lg text-muted-foreground">
+                                Everything becomes faster, clearer, more consistent, and easier to manage.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-secondary p-6 sm:p-8 rounded-xl md:rounded-2xl border border-border shadow-lg">
+                        <h3 className="text-2xl sm:text-3xl font-bold mb-6 md:mb-8 text-primary text-center flex items-center justify-center gap-2">
+                          <FaCloud className="text-2xl sm:text-3xl" />
+                          Technical Foundation
+                        </h3>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                            <FaRobot className="text-xl text-primary flex-shrink-0 mt-1" />
+                            <div>
+                              <h4 className="font-bold text-foreground mb-1">Agentic Kanban framework</h4>
+                              <p className="text-sm text-muted-foreground">AI-powered workflow management</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                            <FaSyncAlt className="text-xl text-primary flex-shrink-0 mt-1" />
+                            <div>
+                              <h4 className="font-bold text-foreground mb-1">Forms → agents → actions pipeline</h4>
+                              <p className="text-sm text-muted-foreground">Automated workflow generation</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                            <FaMapMarkerAlt className="text-xl text-primary flex-shrink-0 mt-1" />
+                            <div>
+                              <h4 className="font-bold text-foreground mb-1">Integrates with RCM, Trackit, Pick-Up & Drop-Off</h4>
+                              <p className="text-sm text-muted-foreground">Seamless data flow across platforms</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                            <FaBell className="text-xl text-primary flex-shrink-0 mt-1" />
+                            <div>
+                              <h4 className="font-bold text-foreground mb-1">Chat + notifications</h4>
+                              <p className="text-sm text-muted-foreground">SMS, Email, Slack, WhatsApp</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                            <FaChartBar className="text-xl text-primary flex-shrink-0 mt-1" />
+                            <div>
+                              <h4 className="font-bold text-foreground mb-1">GPS + renter + vehicle data combined</h4>
+                              <p className="text-sm text-muted-foreground">Unified data system</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                            <FaLock className="text-xl text-primary flex-shrink-0 mt-1" />
+                            <div>
+                              <h4 className="font-bold text-foreground mb-1">User-level roles and permissions</h4>
+                              <p className="text-sm text-muted-foreground">Secure access control</p>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3 sm:col-span-2">
+                            <FaCloud className="text-xl text-primary flex-shrink-0 mt-1" />
+                            <div>
+                              <h4 className="font-bold text-foreground mb-1">Cloud storage & audit history</h4>
+                              <p className="text-sm text-muted-foreground">Complete operational transparency and data retention</p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -1513,7 +2106,7 @@ export default function PresentationPage() {
               </div>
             </div>
           </div>
-        </main>
+        </div>
 
         <footer className="border-t border-gray-200 bg-white py-6 md:py-8 shadow-sm">
           <div className="container mx-auto px-4 sm:px-6">
@@ -1562,6 +2155,8 @@ export default function PresentationPage() {
           </div>
         </footer>
 
+        </main>
+
         {lightboxOpen && (
           <div 
             className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
@@ -1581,7 +2176,17 @@ export default function PresentationPage() {
             <button
               onClick={(e) => {
                 e.stopPropagation()
-                prevCarouselImage()
+                if (lightboxSource === 'spatial') {
+                  prevCarouselImage()
+                } else if (lightboxSource === 'technical') {
+                  prevTechFoundationImage()
+                } else if (lightboxSource === 'pickup') {
+                  prevPickupImage()
+                } else if (lightboxSource === 'seeItInAction') {
+                  prevSeeItInActionImage()
+                } else { // lightboxSource === 'pickupJourney'
+                  prevPickupJourneyImage()
+                }
               }}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
               aria-label="Previous image"
@@ -1592,7 +2197,17 @@ export default function PresentationPage() {
             <button
               onClick={(e) => {
                 e.stopPropagation()
-                nextCarouselImage()
+                if (lightboxSource === 'spatial') {
+                  nextCarouselImage()
+                } else if (lightboxSource === 'technical') {
+                  nextTechFoundationImage()
+                } else if (lightboxSource === 'pickup') {
+                  nextPickupImage()
+                } else if (lightboxSource === 'seeItInAction') {
+                  nextSeeItInActionImage()
+                } else { // lightboxSource === 'pickupJourney'
+                  nextPickupJourneyImage()
+                }
               }}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
               aria-label="Next image"
@@ -1602,20 +2217,81 @@ export default function PresentationPage() {
 
             <div className="max-w-7xl max-h-full w-full h-full flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
               <img 
-                src={carouselImages[carouselIndex].src || "/placeholder.svg"}
-                alt={carouselImages[carouselIndex].alt}
-                className="max-w-full max-h-[calc(100vh-120px)] object-contain rounded-lg shadow-2xl"
+                src={
+                  lightboxSource === 'spatial' 
+                    ? carouselImages[carouselIndex].src 
+                    : lightboxSource === 'technical'
+                    ? technicalFoundationImages[techFoundationIndex].src
+                    : lightboxSource === 'pickup'
+                    ? pickupCarouselImages[pickupCarouselIndex].src
+                    : lightboxSource === 'seeItInAction'
+                    ? pickupJourneyImages[seeItInActionIndex].src
+                    : pickupJourneyImages[pickupJourneyIndex].src
+                }
+                alt={
+                  lightboxSource === 'spatial' 
+                    ? carouselImages[carouselIndex].alt 
+                    : lightboxSource === 'technical'
+                    ? technicalFoundationImages[techFoundationIndex].alt
+                    : lightboxSource === 'pickup'
+                    ? pickupCarouselImages[pickupCarouselIndex].alt
+                    : lightboxSource === 'seeItInAction'
+                    ? pickupJourneyImages[seeItInActionIndex].alt
+                    : pickupJourneyImages[pickupJourneyIndex].alt
+                }
+                className="max-w-full max-h-[calc(100vh-80px)] object-contain rounded-lg shadow-2xl"
+                style={{ maxWidth: '90vw' }}
               />
               
               <div className="mt-4 text-center">
-                <p className="text-white text-sm md:text-base mb-2">{carouselImages[carouselIndex].alt}</p>
+                <p className="text-white text-sm md:text-base mb-2">
+                  {lightboxSource === 'spatial' 
+                    ? carouselImages[carouselIndex].alt 
+                    : lightboxSource === 'technical'
+                    ? technicalFoundationImages[techFoundationIndex].alt
+                    : lightboxSource === 'pickup'
+                    ? pickupCarouselImages[pickupCarouselIndex].alt
+                    : lightboxSource === 'seeItInAction'
+                    ? pickupJourneyImages[seeItInActionIndex].alt
+                    : pickupJourneyImages[pickupJourneyIndex].alt
+                  }
+                </p>
                 <div className="flex gap-2 justify-center">
-                  {carouselImages.map((_, idx) => (
+                  {(lightboxSource === 'spatial' 
+                    ? carouselImages 
+                    : lightboxSource === 'technical' 
+                    ? technicalFoundationImages 
+                    : lightboxSource === 'pickup'
+                    ? pickupCarouselImages
+                    : lightboxSource === 'seeItInAction'
+                    ? pickupJourneyImages
+                    : pickupJourneyImages
+                  ).map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setCarouselIndex(idx)}
+                      onClick={() => {
+                        if (lightboxSource === 'spatial') {
+                          setCarouselIndex(idx)
+                        } else if (lightboxSource === 'technical') {
+                          setTechFoundationIndex(idx)
+                        } else if (lightboxSource === 'pickup') {
+                          setPickupCarouselIndex(idx)
+                        } else if (lightboxSource === 'seeItInAction') {
+                          setSeeItInActionIndex(idx)
+                        } else { // lightboxSource === 'pickupJourney'
+                          setPickupJourneyIndex(idx)
+                        }
+                      }}
                       className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                        idx === carouselIndex 
+                        idx === (lightboxSource === 'spatial' 
+                          ? carouselIndex 
+                          : lightboxSource === 'technical' 
+                          ? techFoundationIndex 
+                          : lightboxSource === 'pickup'
+                          ? pickupCarouselIndex
+                          : lightboxSource === 'seeItInAction'
+                          ? seeItInActionIndex
+                          : pickupJourneyIndex)
                           ? 'bg-white w-6' 
                           : 'bg-white/50 hover:bg-white/75'
                       }`}
@@ -1624,7 +2300,16 @@ export default function PresentationPage() {
                   ))}
                 </div>
                 <div className="text-white/70 text-xs mt-2">
-                  {carouselIndex + 1} / {carouselImages.length}
+                  {lightboxSource === 'spatial' 
+                    ? `${carouselIndex + 1} / ${carouselImages.length}`
+                    : lightboxSource === 'technical'
+                    ? `${techFoundationIndex + 1} / ${technicalFoundationImages.length}`
+                    : lightboxSource === 'pickup'
+                    ? `${pickupCarouselIndex + 1} / ${pickupCarouselImages.length}`
+                    : lightboxSource === 'seeItInAction'
+                    ? `${seeItInActionIndex + 1} / ${pickupJourneyImages.length}`
+                    : `${pickupJourneyIndex + 1} / ${pickupJourneyImages.length}`
+                  }
                 </div>
               </div>
             </div>
@@ -1633,3 +2318,4 @@ export default function PresentationPage() {
       </div>
     )
   }
+}

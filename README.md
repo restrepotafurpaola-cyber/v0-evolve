@@ -28,3 +28,45 @@ Continue building your app on:
 2. Deploy your chats from the v0 interface
 3. Changes are automatically pushed to this repository
 4. Vercel deploys the latest version from this repository
+
+## Desarrollo local
+
+1. **Instala las dependencias**
+
+   \`\`\`bash
+   pnpm install
+   \`\`\`
+
+2. **Arranca el entorno de desarrollo**
+
+   \`\`\`bash
+   pnpm dev
+   \`\`\`
+
+3. **Verifica la build de producción**
+
+   \`\`\`bash
+   pnpm run build
+   \`\`\`
+
+## Preparar el despliegue en Vercel
+
+1. **Repositorio Git**  
+   Asegúrate de que el proyecto esté en un repositorio (GitHub/GitLab/Bitbucket). Vercel desplegará cada push a la rama seleccionada.
+
+2. **Variables de entorno (Dashboard de Vercel → Project Settings → Environment Variables)**  
+   - `NEXT_PUBLIC_FIREBASE_DATABASE_URL` → URL de tu Realtime Database (si necesitas apuntar a otra instancia).
+
+3. **Ajustes recomendados**  
+   - Framework preset: `Next.js`
+   - Install command: `pnpm install`
+   - Build command: `pnpm run build`
+   - Output directory: `.next`
+
+4. **Primer despliegue**  
+   - En Vercel, selecciona *Add New Project* → *Import Git Repository*.  
+   - Revisa que `pnpm-lock.yaml` esté presente para que Vercel use pnpm automáticamente.  
+   - Añade las variables de entorno necesarias y haz clic en **Deploy**.
+
+5. **Despliegues posteriores**  
+   Cada push a la rama configurada (por ejemplo `main`) lanzará un nuevo build. Usa `pnpm run build` de forma local antes de hacer push para detectar problemas a tiempo.
