@@ -1513,7 +1513,7 @@ export default function PresentationPage() {
               </div>
             </div>
           </div>
-        </main>
+        </div>
 
         <footer className="border-t border-gray-200 bg-white py-6 md:py-8 shadow-sm">
           <div className="container mx-auto px-4 sm:px-6">
@@ -1561,6 +1561,8 @@ export default function PresentationPage() {
             </div>
           </div>
         </footer>
+
+        </main>
 
         {lightboxOpen && (
           <div 
