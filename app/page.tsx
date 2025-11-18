@@ -1,0 +1,1635 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { database, ref, set, push } from "@/lib/firebase"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { 
+  FaCheckCircle, 
+  FaMobileAlt, 
+  FaUnlock, 
+  FaBolt, 
+  FaDollarSign, 
+  FaSyncAlt, 
+  FaSmile, 
+  FaBullseye, 
+  FaShieldAlt, 
+  FaRocket,
+  FaMapMarkerAlt,
+  FaBell,
+  FaMapMarked,
+  FaCar,
+  FaExclamationTriangle,
+  FaBatteryFull,
+  FaLock,
+  FaDesktop,
+  FaRobot,
+  FaCloud,
+  FaChartBar
+} from 'react-icons/fa'
+import { MdComputer } from 'react-icons/md'
+
+const ChevronLeft = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+)
+
+const ChevronRight = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="9 18 15 12 9 6"></polyline>
+  </svg>
+)
+
+const carouselImages = [
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/H3oregon-MXOExb3dMEb2B8ronWGWUl3scdp8WW.jpg",
+    alt: "H3 Oregon hexagonal grid map showing spatial data analysis"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hexagons-s-NPnyMjkdqqoZveJbqdMsBIQT2Kgew6.png",
+    alt: "3D hexagonal visualization of fleet activity density"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/comute-fwGXXd7BWgoCekigODbeTiqCxFkvdl.jpg",
+    alt: "Movement patterns and trip analysis network visualization"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/points-s-NDyIL5ZmLbxh7zISt41k9bWCHXlMHT.png",
+    alt: "Geographic point data showing vehicle distribution"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/H3Global-FXUTi0oXzmFSu3f3388Gmx0T6yL1gi.jpg",
+    alt: "Global H3 hexagonal grid showing North America coverage"
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/heatmap-s-wnFJkgRs0tdSoUvQiMJSfPxWggnFCC.png",
+    alt: "Heatmap showing utilization density and high-traffic zones"
+  }
+]
+
+const slides = [
+  {
+    id: "agenda",
+    title: "Agenda",
+    tabLine1: "Agenda",
+    tabLine2: "",
+  },
+  {
+    id: "overview",
+    title: "360 Sierra",
+    tabLine1: "360 Sierra",
+    tabLine2: "",
+  },
+  {
+    id: "product-overview",
+    title: "Rental Buddy",
+    tabLine1: "Rental Buddy",
+    tabLine2: "",
+    hasSubTabs: true,
+  },
+  {
+    id: "why-together",
+    title: "Demo",
+    tabLine1: "Demo",
+    tabLine2: "",
+  },
+  {
+    id: "implementation",
+    title: "Implementation",
+    tabLine1: "Implementation",
+    tabLine2: "",
+  },
+  {
+    id: "next-steps",
+    title: "Next Steps",
+    tabLine1: "Next Steps",
+    tabLine2: "",
+  },
+]
+
+const productSubTabs = [
+  {
+    id: "rental-buddy-overview",
+    title: "Overview",
+    tabLine1: "Overview",
+  },
+  {
+    id: "track-kit",
+    title: "Trackit",
+    tabLine1: "Trackit",
+  },
+  {
+    id: "flexible-pickup",
+    title: "Pick-Up & Drop-Off",
+    tabLine1: "Pick-Up & Drop-Off",
+  },
+  {
+    id: "master-operator",
+    title: "Master Operator",
+    tabLine1: "Master Operator",
+  },
+]
+
+// Placeholder for WorkshopChecklist component
+const WorkshopChecklist = () => {
+  const [openSection, setOpenSection] = useState<string | null>(null);
+  const [checklist, setChecklist] = useState({
+    companyOverview: { label: "Company Overview", checked: false },
+    productDemo: { label: "Product Demo", checked: false },
+    useCases: { label: "Use Cases", checked: false },
+    qAndA: { label: "Q&A Session", checked: false },
+    nextSteps: { label: "Next Steps Discussion", checked: false },
+    feedback: { label: "Collect Feedback", checked: false },
+  });
+
+  const toggleSection = (section: keyof typeof checklist) => {
+    setOpenSection(openSection === section ? null : section);
+  };
+
+  const toggleCheck = (section: keyof typeof checklist) => {
+    setChecklist(prev => ({
+      ...prev,
+      [section]: { ...prev[section], checked: !prev[section].checked },
+    }));
+  };
+
+  const handleEmail = () => {
+    const subject = "Workshop Checklist Summary";
+    let body = "Here is a summary of the workshop checklist:\n\n";
+    Object.entries(checklist).forEach(([key, value]) => {
+      body += `- ${value.label}: ${value.checked ? '✅' : '⬜'}\n`;
+    });
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  return (
+    null
+  );
+};
+
+
+export default function PresentationPage() {
+  const [showWelcome, setShowWelcome] = useState(true)
+  const [companyName, setCompanyName] = useState("")
+  const [presentationDate, setPresentationDate] = useState(
+    new Date().toISOString().split('T')[0]
+  )
+  const [sessionId, setSessionId] = useState<string | null>(null)
+
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [currentSubTab, setCurrentSubTab] = useState(0)
+  const [carouselIndex, setCarouselIndex] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  
+  // Auto-play carousel every 4 seconds
+  useEffect(() => {
+    const autoPlayInterval = setInterval(() => {
+      setCarouselIndex((prev) => (prev + 1) % carouselImages.length)
+    }, 4000) // Change image every 4 seconds
+
+    return () => clearInterval(autoPlayInterval)
+  }, [])
+  
+  const [trackingOptionsOpen, setTrackingOptionsOpen] = useState(false)
+  const [trackingEssentials, setTrackingEssentials] = useState({
+    gpsLocation: true,
+    alerts: true,
+    geofencing: true,
+    crashEvents: true,
+    dtcCodes: true,
+    batteryAlerts: true,
+    twelveMonthHistory: true, // Set to true by default
+  })
+  const [aiDataIntelligence, setAiDataIntelligence] = useState({
+    lateMissedReturnPrediction: false, // New field
+    geofenceEntryIntentPrediction: false, // New field
+    routeDestinationInsights: false, // New field
+    drivingBehaviorTripQuality: false, // New field
+    // spatialDataVisualization: false, // Removed
+    // heatmapsUtilization: false, // Removed
+    // movementPatterns: false, // Removed
+    // fleetActivityTrends: false, // Removed
+    // operationalPerformance: false, // Removed
+    // predictiveAlerts: false, // Removed
+  })
+  const [pickupDropoffOptions, setPickupDropoffOptions] = useState({
+    login: false,
+    welcomeScreen: false,
+    idVerification: false,
+    agreementSignature: false,
+    insuranceOptions: false,
+    addOns: false,
+    videoDisplay: false,
+    vehicleLocation: false,
+    preTripPhotos: false,
+    codeDisplay: false,
+    openScreen: false,
+    goodTripScreen: false,
+    checklistReminder: false,
+    postTripPhotos: false,
+    keyPhoto: false,
+    lockScreen: false,
+    dropOffForm: false,
+    feedbackForm: false,
+    googleReview: false,
+  })
+  const [estimatedValue, setEstimatedValue] = useState(2500)
+
+  const nextCarouselImage = () => {
+    setCarouselIndex((prev) => (prev + 1) % carouselImages.length)
+  }
+
+  const prevCarouselImage = () => {
+    setCarouselIndex((prev) => (prev - 1 + carouselImages.length) % carouselImages.length)
+  }
+  
+
+  useEffect(() => {
+    if (!lightboxOpen) return
+
+    const handleLightboxKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setLightboxOpen(false)
+      } else if (e.key === 'ArrowRight') {
+        nextCarouselImage()
+      } else if (e.key === 'ArrowLeft') {
+        prevCarouselImage()
+      }
+    }
+
+    window.addEventListener('keydown', handleLightboxKeyDown)
+    return () => window.removeEventListener('keydown', handleLightboxKeyDown)
+  }, [lightboxOpen, carouselIndex])
+  
+
+  const handleStartPresentation = async () => {
+    if (!companyName.trim()) {
+      alert('Please enter a company name')
+      return
+    }
+
+    try {
+      // Create new session in Firebase
+      const sessionsRef = ref(database, 'sessions')
+      const newSessionRef = push(sessionsRef)
+      const newSessionId = newSessionRef.key
+
+      await set(newSessionRef, {
+        companyName: companyName.trim(),
+        presentationDate,
+        createdAt: new Date().toISOString(),
+        trackingEssentials,
+        aiDataIntelligence,
+        pickupDropoffOptions,
+      })
+
+      console.log('[v0] Session created:', newSessionId)
+      setSessionId(newSessionId)
+      setShowWelcome(false)
+    } catch (error) {
+      console.error('[v0] Error creating session:', error)
+      alert('Error starting presentation. Please try again.')
+    }
+  }
+
+  const saveSelectionsToFirebase = async (selectionType: string, data: any) => {
+    if (!sessionId) {
+      console.error('[v0] No session ID available')
+      return
+    }
+
+    try {
+      const sessionRef = ref(database, `sessions/${sessionId}`)
+      await set(sessionRef, {
+        companyName,
+        presentationDate,
+        createdAt: new Date().toISOString(),
+        lastUpdated: new Date().toISOString(),
+        [selectionType]: data,
+      })
+      console.log(`[v0] Saved ${selectionType} to Firebase`)
+    } catch (error) {
+      console.error(`[v0] Error saving ${selectionType}:`, error)
+    }
+  }
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index)
+    if (slides[index].id !== "product-overview") {
+      setCurrentSubTab(0)
+    }
+  }
+
+  const nextSlide = () => {
+    if (currentSlide === 2 && currentSubTab < productSubTabs.length - 1) {
+      setCurrentSubTab(currentSubTab + 1)
+    } else if (currentSlide < slides.length - 1) {
+      setCurrentSlide(currentSlide + 1)
+      setCurrentSubTab(0)
+    }
+  }
+
+  const prevSlide = () => {
+    if (currentSlide === 2 && currentSubTab > 0) {
+      setCurrentSubTab(currentSubTab - 1)
+    } else if (currentSlide > 0) {
+      setCurrentSlide(currentSlide - 1)
+      setCurrentSubTab(0)
+    }
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (showWelcome) return
+      
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        nextSlide()
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        prevSlide()
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [currentSlide, currentSubTab, showWelcome])
+
+  if (showWelcome) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="max-w-2xl w-full mx-auto p-8">
+          <div className="bg-card rounded-2xl shadow-2xl p-12 border border-gray-200">
+            <div className="text-center mb-8">
+              <h1 className="text-4xl font-semibold mb-4 text-primary">
+                Welcome to Rental Buddy
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                Let's start your presentation
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <Label htmlFor="companyName" className="text-base font-medium text-foreground mb-2 block">
+                  Company Name
+                </Label>
+                <Input
+                  id="companyName"
+                  type="text"
+                  placeholder="Enter company name"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  className="text-base p-4 border-2 focus:border-primary"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleStartPresentation()
+                    }
+                  }}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="presentationDate" className="text-base font-medium text-foreground mb-2 block">
+                  Presentation Date
+                </Label>
+                <Input
+                  id="presentationDate"
+                  type="date"
+                  value={presentationDate}
+                  onChange={(e) => setPresentationDate(e.target.value)}
+                  className="text-base p-4 border-2 focus:border-primary"
+                />
+              </div>
+
+              <Button
+                onClick={handleStartPresentation}
+                className="w-full py-4 text-lg font-medium bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                Start Presentation
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <header className="border-b border-gray-200 bg-white sticky top-0 z-10 shadow-sm">
+        <div className="container mx-auto px-4 sm:px-6">
+          <nav className="flex gap-4 md:gap-8 overflow-x-auto py-4 scrollbar-hide">
+            {slides.map((slide, index) => {
+              return (
+                <button
+                  key={slide.id}
+                  onClick={() => goToSlide(index)}
+                  className={`
+                    relative text-sm md:text-base font-medium transition-all duration-200 flex-shrink-0 whitespace-nowrap
+                    px-2 py-1 rounded-md
+                    ${
+                      currentSlide === index
+                        ? "text-primary font-semibold"
+                        : "text-gray-600 hover:text-primary hover:bg-gray-50"
+                    }
+                  `}
+                >
+                  {slide.tabLine1}
+                  {currentSlide === index && (
+                    <span className="absolute bottom-[-17px] left-0 right-0 h-1 bg-primary rounded-full"></span>
+                  )}
+                </button>
+              )
+            })}
+          </nav>
+        </div>
+      </header>
+
+      <main className="flex-1 container mx-auto px-4 sm:px-6 py-6 md:py-8">
+        <div className="max-w-6xl mx-auto h-full">
+          
+          {currentSlide === 2 && (
+            <div className="mb-6 md:mb-8 -mx-4 sm:mx-0">
+              <div className="overflow-x-auto px-4 sm:px-2">
+                <div className="flex gap-3 md:gap-4 justify-start md:justify-center pb-3 min-w-max md:min-w-0">
+                  {productSubTabs.map((subTab, index) => {
+                    return (
+                      <button
+                        key={subTab.id}
+                        onClick={() => setCurrentSubTab(index)}
+                        className={`
+                          relative px-5 md:px-6 py-2 md:py-2.5 text-sm md:text-base font-medium transition-all duration-200 flex-shrink-0 rounded-lg whitespace-nowrap
+                          ${
+                            currentSubTab === index
+                              ? "text-white bg-primary font-semibold shadow-md"
+                              : "text-gray-700 hover:text-white hover:bg-primary/80 bg-gray-100 border border-gray-200"
+                          }
+                        `}
+                      >
+                        {subTab.tabLine1}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="relative">
+            <div className="bg-card rounded-xl md:rounded-2xl border border-gray-200 p-6 sm:p-10 md:p-16 min-h-[400px] md:min-h-[550px] flex flex-col justify-center shadow-lg animate-in fade-in duration-500">
+              {currentSlide === 0 && (
+                <div className="animate-in fade-in slide-in-from-right duration-500">
+                  <h2 className="text-2xl sm:text-3xl font-semibold mb-6 md:mb-10 text-primary text-balance">
+                    Agenda
+                  </h2>
+                  <div className="space-y-4 md:space-y-5 text-foreground leading-relaxed">
+                    {[
+                      'Introductions',
+                      'Our Company & Vision',
+                      'Product Overview',
+                      'Why It Works Better Together — Full Demo',
+                      'Implementation Plan',
+                      'Next Steps'
+                    ].map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-3 md:gap-4">
+                        <span className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 rounded-full bg-primary text-white flex items-center justify-center text-xs md:text-sm font-medium">
+                          {idx + 1}
+                        </span>
+                        <p className="pt-0.5 md:pt-1 text-sm md:text-base">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {currentSlide === 1 && (
+                <div className="animate-in fade-in slide-in-from-right duration-500">
+                  <h2 className="text-3xl sm:text-4xl font-semibold mb-8 md:mb-12 text-primary text-balance leading-tight">
+                    360 Sierra — Our Vision
+                  </h2>
+                  <div className="space-y-6 md:space-8 text-foreground leading-relaxed max-w-5xl mx-auto">
+                    <p className="text-xl sm:text-2xl font-bold text-primary border-l-4 border-primary pl-3 md:pl-4 py-2">
+                      Built by operators, for operators.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 text-base md:text-lg">
+                      <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                        <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 md:mb-3">Who We Are</h3>
+                        <p className="text-foreground leading-relaxed">
+                          <span className="font-semibold">360 Sierra</span> is a{" "}
+                          <span className="font-bold text-primary">U.S.-based startup</span> created by a team with{" "}
+                          <span className="font-bold text-primary">over 20 years of experience</span> in software and hardware development.
+                        </p>
+                      </div>
+
+                      <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                        <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 md:mb-3">The Problem We Saw</h3>
+                        <p className="text-foreground leading-relaxed">
+                          After running our own <span className="font-bold text-primary">RV rental business</span>, we saw how hard it is to manage operations across{" "}
+                          <span className="font-bold">fragmented tools and disconnected systems</span>.
+                        </p>
+                      </div>
+
+                      <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
+                        <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 md:mb-3">Our Solution</h3>
+                        <p className="text-foreground leading-relaxed">
+                          That experience led us to build <span className="font-bold text-primary">Rental Buddy</span>, a platform that combines{" "}
+                          <span className="font-bold">AI</span> and{" "}
+                          <span className="font-bold">IoT</span> to connect data, simplify operations, and automate workflows.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-secondary border-l-4 border-primary p-4 sm:p-6 rounded-lg shadow-sm">
+                      <p className="text-lg sm:text-xl font-semibold text-foreground italic">
+                        {"Our goal is to help rental companies use their data with AI to make faster decisions and run operations with more clarity and control."}
+                      </p>
+                    </div>
+
+                    <div className="bg-secondary p-6 sm:p-8 rounded-xl md:rounded-2xl border border-border shadow-md mt-6 md:mt-8">
+                      <p className="font-bold text-foreground mb-4 md:mb-6 text-xl sm:text-2xl text-center">Our AI-Ready Platform | Beyond SaaS</p>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+                        <div className="bg-card p-4 rounded-xl border border-border shadow-sm flex flex-col">
+                          <h4 className="font-bold text-base sm:text-xl mb-2 md:mb-3 text-primary min-h-[3rem] flex items-center">
+                            Trackit
+                          </h4>
+                          <p className="text-sm md:text-base leading-relaxed text-foreground flex-1 min-h-[4rem]">
+                            Turn tracking data into clear fleet decisions
+                          </p>
+                          <div className="mt-3 pt-3 border-t border-border flex items-center justify-center">
+                            <img 
+                              src="/images/design-mode/uber%20logo.png" 
+                              alt="Uber" 
+                              className="h-6 sm:h-8 object-contain opacity-80"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="bg-card p-4 rounded-xl border border-border shadow-sm flex flex-col">
+                          <h4 className="font-bold text-base sm:text-xl mb-2 md:mb-3 text-primary min-h-[3rem] flex items-center">
+                            Flexible Pick-Up & Drop-Off
+                          </h4>
+                          <p className="text-sm md:text-base leading-relaxed text-foreground flex-1 min-h-[4rem]">
+                            Make renting a vehicle as easy as renting a Zipcar.
+                          </p>
+                          <div className="mt-3 pt-3 border-t border-border flex items-center justify-center">
+                            <img 
+                              src="/images/design-mode/zip%20cardownload.jpeg" 
+                              alt="Lime" 
+                              className="h-8 sm:h-10 object-contain"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="bg-card p-4 rounded-xl border border-border shadow-sm flex flex-col">
+                          <h4 className="font-bold text-base sm:text-xl mb-2 md:mb-3 text-primary min-h-[3rem] flex items-center">
+                            Master Operator
+                          </h4>
+                          <p className="text-sm md:text-base leading-relaxed text-foreground flex-1 min-h-[4rem]">
+                            Simplify daily operations with structure and clarity.
+                          </p>
+                          <div className="mt-3 pt-3 border-t border-border flex items-center justify-center">
+                            <img 
+                              src="/images/design-mode/toyota%202%20logo.png" 
+                              alt="Toyota" 
+                              className="h-7 sm:h-9 object-contain"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="text-center mt-8 md:mt-10 mb-4 md:mb-6">
+                      <h3 className="text-3xl sm:text-4xl font-bold text-primary leading-tight">
+                        What You Unlock
+                      </h3>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-12 text-base md:text-2xl font-bold text-foreground py-4">
+                      <div className="flex items-center gap-2 md:gap-3">
+                        <FaCheckCircle className="text-accent text-xl md:text-3xl" />
+                        <span>+40% Efficiency</span>
+                      </div>
+                      <div className="flex items-center gap-2 md:gap-3">
+                        <FaCheckCircle className="text-accent text-xl md:text-3xl" />
+                        <span>+60% Consistency</span>
+                      </div>
+                      <div className="flex items-center gap-2 md:gap-3">
+                        <FaCheckCircle className="text-accent text-xl md:text-3xl" />
+                        <span>2x Scalability</span>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-secondary p-6 sm:p-8 rounded-xl md:rounded-2xl border border-border shadow-md mt-6 md:mt-8">
+                      <div className="text-center mb-6 md:mb-8">
+                        <h3 className="text-3xl sm:text-4xl font-bold mb-2 md:mb-3 text-primary leading-tight">
+                          A Single Source of Truth
+                        </h3>
+                        <p className="text-xl sm:text-2xl text-foreground font-semibold">
+                          for Your Vehicle Rental Operations
+                        </p>
+                      </div>
+                      
+                      <div className="flex flex-col gap-6 md:gap-8">
+                        <p className="font-bold text-foreground mb-4 md:mb-6 text-xl sm:text-2xl text-center">Our AI-Ready Platform | Beyond SaaS</p>
+                        <div className="flex items-center justify-center gap-6 md:gap-8 flex-wrap">
+                          <img 
+                            src="/images/design-mode/1.%20RCMLOGO.png" 
+                            alt="Rental Car Manager" 
+                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
+                          />
+                          <img 
+                            src="/images/design-mode/Wheelbase-Primary-RGB%2015000%20copy.webp" 
+                            alt="Wheelbase" 
+                            className="h-6 sm:h-8 object-contain hover:scale-110 transition-transform duration-300 max-w-[120px]"
+                          />
+                          <img 
+                            src="/images/design-mode/slack-download.png" 
+                            alt="Slack" 
+                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
+                          />
+                          <img 
+                            src="/images/design-mode/4.%20WHATSAPP%20LOGO.jpeg" 
+                            alt="WhatsApp" 
+                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
+                          />
+                          <img 
+                            src="/images/design-mode/image.png" 
+                            alt="Google" 
+                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
+                          />
+                          <img 
+                            src="/images/design-mode/image(1).png" 
+                            alt="ChatGPT" 
+                            className="h-10 sm:h-14 object-contain hover:scale-110 transition-transform duration-300"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {currentSlide === 2 && (
+                <>
+                  {currentSubTab === 0 && (
+                    <div className="animate-in fade-in slide-in-from-right duration-500">
+                      <div className="text-center mb-10 md:mb-16">
+                        <img 
+                          src="/images/design-mode/rentalBuddy%20transparent.png" 
+                          alt="Rental Buddy" 
+                          className="h-16 sm:h-24 md:h-28 mx-auto object-contain mb-6 md:mb-10 drop-shadow-2xl"
+                        />
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-10 text-primary text-balance leading-tight">
+                          How Rental Buddy Fits into Your Workflow
+                        </h2>
+                      </div>
+                      
+                      <div className="space-y-6 md:space-y-8 max-w-5xl mx-auto">
+                        <div className="bg-secondary p-8 sm:p-10 rounded-xl md:rounded-2xl border border-border shadow-md">
+                          <h3 className="text-2xl sm:text-3xl font-bold mb-4 md:mb-6 text-center text-primary leading-tight">
+                            The Complete Rental Journey
+                          </h3>
+                          <div className="relative">
+                            <div className="absolute top-4 sm:top-8 left-0 right-0 h-1 bg-gradient-to-r from-gray-300 via-teal-300 via-green-300 to-green-400"></div>
+                            
+                            <div className="relative flex items-start justify-between gap-1 sm:gap-2">
+                              <div className="flex-1 text-center px-1">
+                                <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-card border-2 sm:border-4 border-border flex items-center justify-center text-muted-foreground text-lg sm:text-2xl font-bold shadow-lg">
+                                  1
+                                </div>
+                                <div className="font-bold text-foreground text-sm sm:text-lg mb-1 md:mb-2">Booking</div>
+                                <div className="text-xs sm:text-sm text-muted-foreground bg-secondary px-2 py-1 rounded-lg border border-border inline-block">RCM</div>
+                              </div>
+                              
+                              <div className="flex-1 text-center px-1">
+                                <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-lg sm:text-2xl font-bold shadow-lg shadow-primary">
+                                  2
+                                </div>
+                                <div className="font-bold text-foreground text-sm sm:text-lg mb-1 md:mb-2">Check-In</div>
+                                <div className="text-xs sm:text-sm text-primary-foreground bg-primary px-2 py-1 rounded-lg border border-primary inline-block font-semibold">Rental Buddy</div>
+                              </div>
+                              
+                              <div className="flex-1 text-center px-1">
+                                <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-lg sm:text-2xl font-bold shadow-lg shadow-primary">
+                                  3
+                                </div>
+                                <div className="font-bold text-foreground text-sm sm:text-lg mb-1 md:mb-2">Pick-Up</div>
+                                <div className="text-xs sm:text-sm text-primary-foreground bg-primary px-2 py-1 rounded-lg border border-primary inline-block font-semibold">Rental Buddy</div>
+                              </div>
+                              
+                              <div className="flex-1 text-center px-1">
+                                <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-lg sm:text-2xl font-bold shadow-lg shadow-primary">
+                                  4
+                                </div>
+                                <div className="font-bold text-foreground text-sm sm:text-lg mb-1 md:mb-2">On Trip</div>
+                                <div className="text-xs sm:text-sm text-primary-foreground bg-primary px-2 py-1 rounded-lg border border-primary inline-block font-semibold">Trackit</div>
+                              </div>
+                              
+                              <div className="flex-1 text-center px-1">
+                                <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-lg sm:text-2xl font-bold shadow-lg shadow-primary">
+                                  5
+                                </div>
+                                <div className="font-bold text-foreground text-sm sm:text-lg mb-1 md:mb-2">Drop-Off</div>
+                                <div className="text-xs sm:text-sm text-primary-foreground bg-primary px-2 py-1 rounded-lg border border-primary inline-block font-semibold">Rental Buddy</div>
+                              </div>
+                              
+                              <div className="flex-1 text-center px-1">
+                                <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-lg sm:text-2xl font-bold shadow-lg shadow-primary">
+                                  6
+                                </div>
+                                <div className="font-bold text-foreground text-sm sm:text-lg mb-1 md:mb-2">Post-Trip</div>
+                                <div className="text-xs sm:text-sm text-primary-foreground bg-primary px-2 py-1 rounded-lg border border-primary inline-block font-semibold">Master Operator</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 text-base md:text-lg leading-relaxed">
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm flex flex-col">
+                            <div className="flex items-start gap-3 md:gap-4 flex-1">
+                              <span className="w-2 h-2 rounded-full bg-primary mt-1.5 md:mt-2 flex-shrink-0"></span>
+                              <div className="flex-1">
+                                <h4 className="font-bold text-foreground text-lg sm:text-xl mb-2 md:mb-3 min-h-[3rem] flex items-center">We don't replace RCM</h4>
+                                <p className="text-muted-foreground min-h-[5rem]">
+                                  We add an <span className="font-bold text-primary">AI layer</span> that <span className="font-bold">connects to RCM</span> — <span className="font-bold">automating</span> and <span className="font-bold">linking every step</span> from booking to return.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm flex flex-col">
+                            <div className="flex items-start gap-3 md:gap-4 flex-1">
+                              <span className="w-2 h-2 rounded-full bg-primary mt-1.5 md:mt-2 flex-shrink-0"></span>
+                              <div className="flex-1">
+                                <h4 className="font-bold text-foreground text-lg sm:text-xl mb-2 md:mb-3 min-h-[3rem] flex items-center">Not a traditional SaaS</h4>
+                                <p className="text-muted-foreground min-h-[5rem]">
+                                  Built around <span className="font-bold text-primary">AI agents</span> that <span className="font-bold">collaborate</span> across the <span className="font-bold">entire rental process</span> and <span className="font-bold">daily operations</span>.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm flex flex-col">
+                            <div className="flex items-start gap-3 md:gap-4 flex-1">
+                              <span className="w-2 h-2 rounded-full bg-primary mt-1.5 md:mt-2 flex-shrink-0"></span>
+                              <div className="flex-1">
+                                <h4 className="font-bold text-foreground text-lg sm:text-xl mb-2 md:mb-3 min-h-[3rem] flex items-center">Powered by data</h4>
+                                <p className="text-muted-foreground min-h-[5rem]">
+                                  Our system <span className="font-bold">connects</span> <span className="font-bold text-primary">RCM, tracking devices, operations, and user data</span> to <span className="font-bold">reveal patterns</span> and <span className="font-bold">improve decisions</span>.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm flex flex-col">
+                            <div className="flex items-start gap-3 md:gap-4 flex-1">
+                              <span className="w-2 h-2 rounded-full bg-primary mt-1.5 md:mt-2 flex-shrink-0"></span>
+                              <div className="flex-1">
+                                <h4 className="font-bold text-foreground text-lg sm:text-xl mb-2 md:mb-3 min-h-[3rem] flex items-center">One connected flow</h4>
+                                <p className="text-muted-foreground min-h-[5rem]">
+                                  <span className="font-bold">RCM stays your core</span> — Rental Buddy <span className="font-bold text-primary">unifies all operations</span> into a <span className="font-bold text-primary">single source of truth</span>.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        
+                      </div>
+                    </div>
+                  )}
+
+                  {currentSubTab === 1 && (
+                    <div className="animate-in fade-in slide-in-from-right duration-500">
+                      <div className="space-y-6 md:space-y-10">
+                        <div className="text-center">
+                          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-6 text-primary text-balance leading-tight">
+                            Rental Buddy Trackit
+                          </h2>
+                          <p className="text-xl sm:text-2xl text-muted-foreground italic">Beyond Location Tracking</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-lg">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground">The Problem</h3>
+                            <p className="text-base sm:text-lg leading-relaxed text-foreground">
+                              Most tracking systems <span className="font-bold text-muted-foreground">stop at location</span>. 
+                              They show <span className="font-bold">where vehicles are</span>, 
+                              not <span className="font-bold text-primary">what that data means</span>.
+                            </p>
+                          </div>
+                          
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-lg">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-primary">The Trackit Solution</h3>
+                            <p className="text-base sm:text-lg leading-relaxed text-foreground">
+                              We turn <span className="font-bold text-primary">every trip and signal</span> into 
+                              <span className="font-bold"> insights</span> that reveal{" "}
+                              <span className="font-bold text-primary">behavior, demand, and utilization</span> — 
+                              helping you plan with <span className="font-bold">precision</span>.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md flex flex-col h-full">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground">Trackit Intro Video (1 min)</h3>
+                            
+                            <div className="flex-1 bg-black rounded-lg md:rounded-xl overflow-hidden border border-border min-h-[200px] sm:min-h-[300px]">
+                              <iframe
+                                className="w-full h-full min-h-[200px] sm:min-h-[300px]"
+                                src="https://www.youtube.com/embed/VhhSSdp1tyo"
+                                title="Rental Buddy Trackit Demo"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            </div>
+                            <div className="mt-3 md:mt-4 pt-3 border-t border-border bg-secondary rounded-lg p-3">
+                              <p className="text-xs sm:text-sm font-semibold text-muted-foreground mb-1 md:mb-2 text-center">Hardware Partner</p>
+                              <img 
+                                src="/images/design-mode/teltonika-download.png" 
+                                alt="Teltonika" 
+                                className="h-6 sm:h-8 mx-auto object-contain"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-4 md:mb-5 text-foreground">What Makes It Different</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <div className="bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
+                                <div className="flex items-start gap-2 mb-2">
+                                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-md">
+                                    1
+                                  </span>
+                                  <h4 className="text-xs sm:text-base font-bold text-foreground leading-tight">Branch & Fleet Strategy</h4>
+                                </div>
+                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed ml-7">
+                                  Use trip data to see where renters go and guide branch and fleet placement.
+                                </p>
+                              </div>
+
+                              <div className="bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
+                                <div className="flex items-start gap-2 mb-2">
+                                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-md">
+                                    2
+                                  </span>
+                                  <h4 className="text-xs sm:text-base font-bold text-foreground leading-tight">Dynamic Fleet Allocation</h4>
+                                </div>
+                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed ml-7">
+                                  {"Spot demand peaks and rebalance vehicles in real time."}
+                                </p>
+                              </div>
+
+                              <div className="bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
+                                <div className="flex items-start gap-2 mb-2">
+                                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-md">
+                                    3
+                                  </span>
+                                  <h4 className="text-xs sm:text-base font-bold text-foreground leading-tight">Pricing Intelligence</h4>
+                                </div>
+                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed ml-7">
+                                  Identify high-traffic zones to adjust prices by region and season.
+                                </p>
+                              </div>
+
+                              <div className="bg-card p-3 sm:p-4 rounded-lg border border-border shadow-sm">
+                                <div className="flex items-start gap-2 mb-2">
+                                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold shadow-md">
+                                    4
+                                  </span>
+                                  <h4 className="text-xs sm:text-base font-bold text-foreground leading-tight">Delay & Risk Management</h4>
+                                </div>
+                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed ml-7">
+                                  Detect late or missed returns before they happen.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground">{"Spatial Operational Data\n"}</h3>
+                            <div 
+                              className="relative aspect-video bg-secondary rounded-lg md:rounded-xl overflow-hidden border border-border group cursor-pointer"
+                              onClick={() => setLightboxOpen(true)}
+                            >
+                              <img 
+                                src={carouselImages[carouselIndex].src || "/placeholder.svg"}
+                                alt={carouselImages[carouselIndex].alt}
+                                className="w-full h-full object-cover"
+                              />
+                              
+                              {/* Zoom icon indicator */}
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 flex items-center justify-center">
+                                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white/90 rounded-full p-3 shadow-lg">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.35-4.35"></path>
+                                    <line x1="11" y1="8" x2="11" y2="14"></line>
+                                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  prevCarouselImage()
+                                }}
+                                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+                                aria-label="Previous image"
+                              >
+                                <ChevronLeft />
+                              </button>
+                              
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  nextCarouselImage()
+                                }}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
+                                aria-label="Next image"
+                              >
+                                <ChevronRight />
+                              </button>
+
+                              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                                {carouselImages.map((_, idx) => (
+                                  <button
+                                    key={idx}
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      setCarouselIndex(idx)
+                                    }}
+                                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                                      idx === carouselIndex 
+                                        ? 'bg-white w-6' 
+                                        : 'bg-white/50 hover:bg-white/75'
+                                    }`}
+                                    aria-label={`Go to image ${idx + 1}`}
+                                  />
+                                ))}
+                              </div>
+
+                              <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                                {carouselIndex + 1} / {carouselImages.length}
+                              </div>
+                            </div>
+                          </div>
+                          
+
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-4 md:mb-5 text-foreground">Technical Foundation</h3>
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
+                                <FaMapMarkerAlt className="text-lg sm:text-2xl text-primary" />
+                                <span className="text-sm sm:text-base text-foreground font-medium">GPS & Geofencing</span>
+                              </div>
+                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
+                                <FaBell className="text-lg sm:text-2xl text-primary" />
+                                <span className="text-sm sm:text-base text-foreground font-medium">Crash & DTC Codes</span>
+                              </div>
+                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
+                                <FaMapMarked className="text-lg sm:text-2xl text-primary" />
+                                <span className="text-sm sm:text-base text-foreground font-medium">Spatial Analysis</span>
+                              </div>
+                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
+                                <FaRobot className="text-lg sm:text-2xl text-primary" />
+                                <span className="text-sm sm:text-base text-foreground font-medium">AI Behavior Models</span>
+                              </div>
+                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
+                                <FaCloud className="text-lg sm:text-2xl text-primary" />
+                                <span className="text-sm sm:text-base text-foreground font-medium">Cloud Storage</span>
+                              </div>
+                              <div className="flex items-center gap-2 sm:gap-3 bg-card p-3 rounded-lg border border-border shadow-sm">
+                                <FaChartBar className="text-lg sm:text-2xl text-primary" />
+                                <span className="text-sm sm:text-base text-foreground font-medium">12-Month History</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="bg-card rounded-xl md:rounded-2xl border border-border shadow-lg overflow-hidden">
+                          <button
+                            onClick={() => setTrackingOptionsOpen(!trackingOptionsOpen)}
+                            className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
+                          >
+                            <h3 className="text-xl sm:text-2xl font-bold text-foreground">Trackit Options</h3>
+                            <svg
+                              className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-300 ${
+                                trackingOptionsOpen ? 'rotate-180' : ''
+                              }`}
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+
+                          <div
+                            className={`transition-all duration-300 ease-in-out ${
+                              trackingOptionsOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+                            } overflow-hidden`}
+                          >
+                            <div className="p-5 sm:p-8 space-y-6 md:space-y-8">
+                              <div>
+                                <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-1 md:gap-2">
+                                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"></span>
+                                  Essentials
+                                </h4>
+                                <div className="space-y-2 md:space-y-3 ml-3 md:ml-4">
+                                  {[
+                                    { key: 'gpsLocation', label: 'GPS Location' },
+                                    { key: 'alerts', label: 'Alerts' },
+                                    { key: 'geofencing', label: 'Geofencing' },
+                                    { key: 'crashEvents', label: 'Crash Events' },
+                                    { key: 'dtcCodes', label: 'DTC Codes' },
+                                    { key: 'batteryAlerts', label: 'Battery Alerts' },
+                                    { key: 'twelveMonthHistory', label: '12-Month History' },
+                                  ].map((item) => (
+                                    <label
+                                      key={item.key}
+                                      className="flex items-center justify-between p-2 sm:p-3 rounded-lg hover:bg-secondary cursor-pointer transition-colors duration-150"
+                                    >
+                                      <span className="text-base sm:text-lg text-foreground">{item.label}</span>
+                                      <input
+                                        type="checkbox"
+                                        checked={trackingEssentials[item.key as keyof typeof trackingEssentials] || false}
+                                        onChange={(e) =>
+                                          setTrackingEssentials({
+                                            ...trackingEssentials,
+                                            [item.key]: e.target.checked,
+                                          })
+                                        }
+                                        className="w-4 h-4 sm:w-5 sm:h-5 rounded focus:ring-2 focus:ring-primary accent-primary cursor-pointer"
+                                      />
+                                    </label>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div>
+                                <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-1 md:gap-2">
+                                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"></span>
+                                  AI & Intelligent Data
+                                </h4>
+                                <div className="space-y-2 md:space-y-3 ml-3 md:ml-4">
+                                  {[
+                                    { 
+                                      key: 'lateMissedReturnPrediction', 
+                                      label: 'Late & Missed Return Prediction',
+                                      tooltip: 'Detect potential delays or missed drop-offs before they happen.'
+                                    },
+                                    { 
+                                      key: 'geofenceEntryIntentPrediction', 
+                                      label: 'Geofence Entry & Intent Prediction',
+                                      tooltip: 'Predict renter intention to travel toward or enter a restricted (non-permitted) area.' // Updated description
+                                    },
+                                    { 
+                                      key: 'routeDestinationInsights', 
+                                      label: 'Route & Destination Insights',
+                                      tooltip: 'Identify where renters actually travel and discover high-demand zones.'
+                                    },
+                                    { 
+                                      key: 'drivingBehaviorTripQuality', 
+                                      label: 'Driving Behavior & Trip Quality',
+                                      tooltip: 'Detect patterns like overspeeding, harsh braking, or detours to assess trip quality and safety.'
+                                    },
+                                  ].map((item) => (
+                                    <label
+                                      key={item.key}
+                                      className="flex items-center justify-between p-2 sm:p-3 rounded-lg hover:bg-secondary cursor-pointer transition-colors duration-150 group"
+                                    >
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-base sm:text-lg text-foreground">{item.label}</span>
+                                        <div className="relative inline-block">
+                                          <div className="w-4 h-4 rounded-full border-2 border-muted-foreground text-muted-foreground flex items-center justify-center text-xs font-bold cursor-help peer">
+                                            ?
+                                          </div>
+                                          <div className="invisible peer-hover:visible absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl z-10">
+                                            {item.tooltip}
+                                            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <input
+                                        type="checkbox"
+                                        checked={aiDataIntelligence[item.key as keyof typeof aiDataIntelligence] || false}
+                                        onChange={(e) =>
+                                          setAiDataIntelligence({
+                                            ...aiDataIntelligence,
+                                            [item.key]: e.target.checked,
+                                          })
+                                        }
+                                        className="w-4 h-4 sm:w-5 sm:h-5 rounded focus:ring-2 focus:ring-primary accent-primary cursor-pointer"
+                                      />
+                                    </label>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div>
+                                {/* CHANGE: Updated section title and replaced questions */}
+                                <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-1 md:gap-2">
+                                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"></span>
+                                  Tell us a bit more about your needs
+                                </h4>
+                                <div className="ml-3 md:ml-4 space-y-4">
+                                  <div>
+                                    <label className="block text-sm font-medium text-foreground mb-2">
+                                      What kind of information or data would help you make better or faster decisions?
+                                    </label>
+                                    <textarea
+                                      rows={2}
+                                      className="w-full p-3 rounded-lg border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors duration-200 text-base text-foreground placeholder:text-muted-foreground resize-none"
+                                      placeholder="Your answer..."
+                                    />
+                                  </div>
+                                  
+                                  <div>
+                                    <label className="block text-sm font-medium text-foreground mb-2">
+                                      Are there any specific events, behaviors, or renter patterns you wish the system could predict?
+                                    </label>
+                                    <textarea
+                                      rows={2}
+                                      className="w-full p-3 rounded-lg border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors duration-200 text-base text-foreground placeholder:text-muted-foreground resize-none"
+                                      placeholder="Your answer..."
+                                    />
+                                  </div>
+                                  
+                                  <div>
+                                    <label className="block text-sm font-medium text-foreground mb-2">
+                                      Any additional comments or ideas?
+                                    </label>
+                                    <textarea
+                                      rows={2}
+                                      className="w-full p-3 rounded-lg border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors duration-200 text-base text-foreground placeholder:text-muted-foreground resize-none"
+                                      placeholder="Your answer..."
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                                  
+                              <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-200">
+                                <div className="bg-card p-4 sm:p-6 rounded-lg md:rounded-xl shadow-lg border-2 border-primary">
+                                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                                    <span className="text-xl sm:text-2xl font-bold text-foreground">PRICE:</span>
+                                    <span className="text-3xl sm:text-4xl font-black text-primary">USD $10</span>
+                                    <span className="text-base sm:text-xl font-semibold text-foreground">per vehicle per month</span>
+                                  </div>
+                                </div>
+                                
+                                <div className="mt-4 md:mt-6 flex justify-center">
+                                  <button
+                                    onClick={async () => {
+                                      await saveSelectionsToFirebase('trackitSelections', {
+                                        trackingEssentials,
+                                        aiDataIntelligence,
+                                        savedAt: new Date().toISOString(),
+                                      })
+                                      alert('Your Trackit selections have been saved!')
+                                    }}
+                                    className="px-6 sm:px-8 py-2 sm:py-3 bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base sm:text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+                                  >
+                                    Save Selection
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {currentSubTab === 2 && (
+                    <div className="animate-in fade-in slide-in-from-right duration-500">
+                      <div className="space-y-6 md:space-8">
+                        <div className="text-center">
+                          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3 text-primary text-balance leading-tight">
+                            Rental Buddy Flexible Pick-Up & Drop-Off
+                          </h2>
+                          <p className="text-base sm:text-xl text-muted-foreground">Built for how renters move — digital, flexible, and on their own time</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground">See It in Action</h3>
+                            <div className="aspect-video bg-secondary rounded-lg md:rounded-xl flex items-center justify-center border border-border">
+                              <div className="text-center">
+                                <div className="text-4xl sm:text-5xl mb-2 md:mb-3">▶️</div>
+                                <p className="text-base sm:text-lg font-semibold text-foreground">Product Demo</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl shadow-xl border border-border flex flex-col">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-center text-primary">
+                              Proven Impact
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1">
+                              {[
+                                { value: '80–90%', label: 'faster renter flow' },
+                                { value: '35–40%', label: 'shorter turnaround' },
+                                { value: '5–15%', label: 'more revenue\n(after-hours & better insurance rates)' },
+                                { value: '40–50%', label: 'fewer desk hours' },
+                              ].map((metric, idx) => (
+                                <div key={idx} className="relative bg-card p-3 sm:p-4 rounded-lg shadow-lg border border-border hover:shadow-xl transition-shadow flex flex-col justify-center">
+                                  <div className="text-2xl sm:text-3xl font-black mb-1 text-primary flex-shrink-0 min-h-[2.5rem] flex items-start">
+                                    {metric.value}
+                                  </div>
+                                  <div className="text-xs sm:text-sm font-semibold text-muted-foreground">{metric.label}</div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="bg-card p-3 sm:p-4 rounded-xl md:rounded-2xl border border-border shadow-lg">
+                          <h3 className="text-3xl sm:text-4xl font-bold mb-3 md:mb-4 text-primary text-center">Complete Digital Journey</h3>
+                          <p className="text-base sm:text-xl text-foreground leading-relaxed mb-4 md:mb-5 text-center max-w-4xl mx-auto font-medium">
+                            Transform every rental into a guided digital flow from verification to return. 
+                            Renters move on their own time, not the branch's.
+                          </p>
+                          <img 
+                            src="/images/native-campervans-flow.png" 
+                            alt="Native Campervans rental app flow showing welcome, ID verification, check-in, pick-up, drop-off, and contract signature screens" 
+                            className="w-full rounded-lg shadow-md"
+                          />
+                        </div>
+
+                        <div>
+                          <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-center text-primary">
+                            Why It Matters
+                          </h3>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
+                            {/* Operations Column */}
+                            <div className="bg-secondary p-4 sm:p-5 rounded-xl border-2 border-primary/20 shadow-md">
+                              <div className="flex items-center gap-2 mb-4 justify-center">
+                                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                  <FaBolt className="text-lg text-primary" />
+                                </div>
+                                <h4 className="text-lg sm:text-xl font-bold text-primary">Operations</h4>
+                              </div>
+                              <div className="space-y-3">
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaMobileAlt className="text-lg text-primary flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">Frictionless Check-In</span>
+                                </div>
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaUnlock className="text-lg text-primary flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">24/7 Access</span>
+                                </div>
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaBolt className="text-lg text-primary flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">Faster Turnaround</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Revenue Column */}
+                            <div className="bg-secondary p-4 sm:p-5 rounded-xl border-2 border-accent/20 shadow-md">
+                              <div className="flex items-center gap-2 mb-4 justify-center">
+                                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center">
+                                  <FaDollarSign className="text-lg text-accent" />
+                                </div>
+                                <h4 className="text-lg sm:text-xl font-bold text-accent">Revenue</h4>
+                              </div>
+                              <div className="space-y-3">
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaDollarSign className="text-lg text-accent flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">Extra Revenue</span>
+                                </div>
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaBullseye className="text-lg text-accent flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">Smart Upselling</span>
+                                </div>
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaSyncAlt className="text-lg text-accent flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">Flexible Staffing</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Customer & Risk Column */}
+                            <div className="bg-secondary p-4 sm:p-5 rounded-xl border-2 border-green-500/20 shadow-md">
+                              <div className="flex items-center gap-2 mb-4 justify-center">
+                                <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center">
+                                  <FaSmile className="text-lg text-green-600" />
+                                </div>
+                                <h4 className="text-lg sm:text-xl font-bold text-green-600">Customer & Risk</h4>
+                              </div>
+                              <div className="space-y-3">
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaSmile className="text-lg text-green-600 flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">High Satisfaction</span>
+                                </div>
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaShieldAlt className="text-lg text-green-600 flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">Risk Control</span>
+                                </div>
+                                <div className="bg-card p-3 rounded-lg border border-border flex items-center gap-2">
+                                  <FaRocket className="text-lg text-green-600 flex-shrink-0" />
+                                  <span className="font-semibold text-foreground text-sm">Future-Ready</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="bg-card rounded-xl md:rounded-2xl border border-border shadow-lg overflow-hidden mt-12 md:mt-16">
+                        <button
+                          onClick={() => setPickupDropoffOpen(!pickupDropoffOpen)}
+                          className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
+                        >
+                          <h3 className="text-xl sm:text-2xl font-bold text-foreground">Pick-Up & Drop-Off Options</h3>
+                          <svg
+                            className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-300 ${
+                              pickupDropoffOpen ? 'rotate-180' : ''
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+
+                        <div
+                          className={`transition-all duration-300 ease-in-out ${
+                            pickupDropoffOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+                          } overflow-hidden`}
+                        >
+                          <div className="p-5 sm:p-8 space-y-4 md:space-y-6">
+                            {[
+                              {
+                                title: 'Login & Welcome',
+                                icon: '🔐',
+                                items: [
+                                  { key: 'login', label: 'Login with email or phone number' },
+                                  { key: 'welcomeScreen', label: 'Welcome screen and rental information display' },
+                                ]
+                              },
+                              {
+                                title: 'Check-In',
+                                icon: '✅',
+                                items: [
+                                  { key: 'idVerification', label: 'ID Verification' },
+                                  { key: 'agreementSignature', label: 'Agreement Signature' },
+                                  { key: 'insuranceOptions', label: 'Coverage / Insurance Options' },
+                                  { key: 'addOns', label: 'Add-Ons Selection' },
+                                ]
+                              },
+                              {
+                                title: 'Pick-Up',
+                                icon: '🚗',
+                                items: [
+                                  { key: 'videoDisplay', label: 'Video Display (how-to or vehicle overview)' },
+                                  { key: 'vehicleLocation', label: 'Vehicle Location' },
+                                  { key: 'preTripPhotos', label: 'Pre-Trip Photos' },
+                                  { key: 'codeDisplay', label: 'Code Display or Lock / Unlock' },
+                                  { key: 'openScreen', label: 'Open Screen' },
+                                  { key: 'goodTripScreen', label: '"Good Trip" Screen' },
+                                ]
+                              },
+                              {
+                                title: 'Drop-Off',
+                                icon: '🏁',
+                                items: [
+                                  { key: 'checklistReminder', label: 'Checklist Reminder' },
+                                  { key: 'postTripPhotos', label: 'Post-Trip Photos' },
+                                  { key: 'keyPhoto', label: 'Key Photo' },
+                                  { key: 'lockScreen', label: 'Lock Screen' },
+                                  { key: 'dropOffForm', label: 'Drop-Off Form' },
+                                  { key: 'feedbackForm', label: 'Feedback Form' },
+                                  { key: 'googleReview', label: 'Google Review' },
+                                ]
+                              },
+                            ].map((group) => (
+                              <div key={group.title} className="bg-secondary p-4 sm:p-6 rounded-lg border border-gray-200">
+                                <h4 className="text-lg sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-1 md:gap-2">
+                                  <span className="text-xl sm:text-2xl">{group.icon}</span>
+                                  {group.title}
+                                </h4>
+                                <div className="space-y-2 md:space-y-3">
+                                  {group.items.map((item) => (
+                                    <label
+                                      key={item.key}
+                                      className="flex items-center justify-between p-2 sm:p-3 bg-card rounded-lg hover:bg-secondary cursor-pointer transition-colors duration-150 border border-gray-200"
+                                    >
+                                      <span className="text-base sm:text-foreground font-medium">{item.label}</span>
+                                      <input
+                                        type="checkbox"
+                                        checked={pickupDropoffOptions[item.key as keyof typeof pickupDropoffOptions]}
+                                        onChange={(e) =>
+                                          setPickupDropoffOptions({
+                                            ...pickupDropoffOptions,
+                                            [item.key]: e.target.checked,
+                                          })
+                                        }
+                                        className="w-4 h-4 sm:w-5 sm:h-5 rounded focus:ring-2 focus:ring-primary accent-primary cursor-pointer"
+                                      />
+                                    </label>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+
+                            <div className="pt-3 md:pt-4 flex justify-center">
+                              <button
+                                onClick={async () => {
+                                  await saveSelectionsToFirebase('pickupDropoffSelections', {
+                                    options: pickupDropoffOptions,
+                                    savedAt: new Date().toISOString(),
+                                  })
+                                  alert('Your selections have been saved!')
+                                }}
+                                className="px-7 sm:px-10 py-2 sm:py-4 bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base sm:text-lg rounded-lg md:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                              >
+                                Save Selections
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {currentSubTab === 3 && (
+                    <div className="animate-in fade-in slide-in-from-right duration-500">
+                      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 md:mb-10 text-primary text-balance">
+                        Rental Buddy Master Operator
+                      </h2>
+                      <p className="text-xl sm:text-2xl md:text-3xl text-primary mb-6 md:mb-10 font-bold">(Shakkiii)</p>
+                      <div className="space-y-4 md:space-y-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
+                        <p>Simplify daily operations with structure and clarity.</p>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {currentSlide === 3 && (
+                <div className="animate-in fade-in slide-in-from-right duration-500">
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-6 md:mb-10 text-primary text-balance">
+                    Demo
+                  </h2>
+                  <div className="space-y-4 md:space-y-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
+                    <p>[Add your implementation benefits content here]</p>
+                  </div>
+                </div>
+              )}
+
+              {currentSlide === 4 && (
+                <div className="animate-in fade-in slide-in-from-right duration-500">
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-6 md:mb-10 text-primary text-balance">
+                    Implementation
+                  </h2>
+                  <div className="space-y-4 md:space-y-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
+                    <p>[Add your implementation details content here]</p>
+                  </div>
+                </div>
+              )}
+
+              {currentSlide === 5 && (
+                <div className="animate-in fade-in slide-in-from-right duration-500">
+                  <h2 className="text-3xl sm:text-4xl font-bold mb-6 md:mb-10 text-primary text-balance">
+                    Next Steps
+                  </h2>
+                  <div className="space-y-4 md:space-y-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
+                    <p>[Add your next steps content here]</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-8 md:mt-12">
+                <WorkshopChecklist />
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <footer className="border-t border-gray-200 bg-white py-6 md:py-8 shadow-sm">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="flex items-center justify-between max-w-6xl mx-auto gap-4">
+              <Button
+                onClick={prevSlide}
+                disabled={currentSlide === 0 && currentSubTab === 0}
+                variant="outline"
+                size="lg"
+                className="gap-1 md:gap-2 disabled:opacity-30 border-gray-300 hover:bg-gray-50 font-medium text-sm md:text-base px-3 md:px-4"
+              >
+                <ChevronLeft />
+                <span className="hidden sm:inline">Previous</span>
+                <span className="sm:hidden">Prev</span>
+              </Button>
+
+              <div className="flex flex-col items-center gap-1 md:gap-2">
+                <div className="text-xs md:text-sm font-medium text-foreground bg-gray-100 px-3 md:px-6 py-1.5 md:py-2.5 rounded-full border border-gray-200 shadow-sm">
+                  {currentSlide === 2
+                    ? `${currentSubTab + 1} / ${productSubTabs.length}`
+                    : `${currentSlide + 1} / ${slides.length}`}
+                </div>
+                <div className="text-xs text-muted-foreground items-center gap-1 hidden sm:flex">
+                  <kbd className="px-2 py-0.5 text-xs font-medium text-foreground bg-card border border-gray-300 rounded">
+                    ←
+                  </kbd>
+                  <kbd className="px-2 py-0.5 text-xs font-medium text-foreground bg-card border border-gray-300 rounded">
+                    →
+                  </kbd>
+                  <span>to navigate</span>
+                </div>
+              </div>
+
+              <Button
+                onClick={nextSlide}
+                disabled={currentSlide === slides.length - 1}
+                variant="outline"
+                size="lg"
+                className="gap-1 md:gap-2 disabled:opacity-30 border-gray-300 hover:bg-gray-50 font-medium text-sm md:text-base px-3 md:px-4"
+              >
+                <span className="hidden sm:inline">Next</span>
+                <span className="sm:hidden">Next</span>
+                <ChevronRight />
+              </Button>
+            </div>
+          </div>
+        </footer>
+
+        {lightboxOpen && (
+          <div 
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+            onClick={() => setLightboxOpen(false)}
+          >
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors z-10"
+              aria-label="Close lightbox"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                prevCarouselImage()
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
+              aria-label="Previous image"
+            >
+              <ChevronLeft />
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                nextCarouselImage()
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
+              aria-label="Next image"
+            >
+              <ChevronRight />
+            </button>
+
+            <div className="max-w-7xl max-h-full w-full h-full flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+              <img 
+                src={carouselImages[carouselIndex].src || "/placeholder.svg"}
+                alt={carouselImages[carouselIndex].alt}
+                className="max-w-full max-h-[calc(100vh-120px)] object-contain rounded-lg shadow-2xl"
+              />
+              
+              <div className="mt-4 text-center">
+                <p className="text-white text-sm md:text-base mb-2">{carouselImages[carouselIndex].alt}</p>
+                <div className="flex gap-2 justify-center">
+                  {carouselImages.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCarouselIndex(idx)}
+                      className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                        idx === carouselIndex 
+                          ? 'bg-white w-6' 
+                          : 'bg-white/50 hover:bg-white/75'
+                      }`}
+                      aria-label={`Go to image ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+                <div className="text-white/70 text-xs mt-2">
+                  {carouselIndex + 1} / {carouselImages.length}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
