@@ -193,6 +193,7 @@ export default function PresentationPage() {
   }, [])
   
   const [trackingOptionsOpen, setTrackingOptionsOpen] = useState(false)
+  const [pickupDropoffOpen, setPickupDropoffOpen] = useState(false)
   const [trackingEssentials, setTrackingEssentials] = useState({
     gpsLocation: true,
     alerts: true,
