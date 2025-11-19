@@ -17,25 +17,17 @@ import {
   FaShieldAlt, 
   FaRocket,
   FaCar,
-  FaExclamationTriangle,
-  FaBatteryFull,
   FaDesktop,
   FaRobot,
-  FaCloud
+  FaCloud,
+  FaSignInAlt,
+  FaClipboardCheck,
+  FaFlagCheckered,
+  FaChevronDown,
+  FaChevronLeft,
+  FaChevronRight
 } from 'react-icons/fa'
 import { MdComputer } from 'react-icons/md'
-
-const ChevronLeft = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6"></polyline>
-  </svg>
-)
-
-const ChevronRight = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="9 18 15 12 9 6"></polyline>
-  </svg>
-)
 
 const carouselImages = [
   {
@@ -151,6 +143,52 @@ const pickupJourneyImages = [
     src: "/images/screenshots/L-RB.png",
     alt: "Screenshot L-RB"
   }
+]
+
+const pickupOptionGroups = [
+  {
+    title: 'Login & Welcome',
+    icon: FaSignInAlt,
+    items: [
+      { key: 'login', label: 'Login with email or phone number' },
+      { key: 'welcomeScreen', label: 'Welcome screen and rental information display' },
+    ]
+  },
+  {
+    title: 'Check-In',
+    icon: FaClipboardCheck,
+    items: [
+      { key: 'idVerification', label: 'ID Verification' },
+      { key: 'agreementSignature', label: 'Agreement Signature' },
+      { key: 'insuranceOptions', label: 'Coverage / Insurance Options' },
+      { key: 'addOns', label: 'Add-Ons Selection' },
+    ]
+  },
+  {
+    title: 'Pick-Up',
+    icon: FaCar,
+    items: [
+      { key: 'videoDisplay', label: 'Video Display (how-to or vehicle overview)' },
+      { key: 'vehicleLocation', label: 'Vehicle Location' },
+      { key: 'preTripPhotos', label: 'Pre-Trip Photos' },
+      { key: 'codeDisplay', label: 'Code Display or Lock / Unlock' },
+      { key: 'openScreen', label: 'Open Screen' },
+      { key: 'goodTripScreen', label: '"Good Trip" Screen' },
+    ]
+  },
+  {
+    title: 'Drop-Off',
+    icon: FaFlagCheckered,
+    items: [
+      { key: 'checklistReminder', label: 'Checklist Reminder' },
+      { key: 'postTripPhotos', label: 'Post-Trip Photos' },
+      { key: 'keyPhoto', label: 'Key Photo' },
+      { key: 'lockScreen', label: 'Lock Screen' },
+      { key: 'dropOffForm', label: 'Drop-Off Form' },
+      { key: 'feedbackForm', label: 'Feedback Form' },
+      { key: 'googleReview', label: 'Google Review' },
+    ]
+  },
 ]
 
 const slides = [
@@ -437,24 +475,25 @@ export default function Page() {
 
   const saveSelectionsToFirebase = async (selectionType: string, data: any) => {
     if (!sessionId) {
+      alert('Please start the presentation to save your selections.')
       console.error('[v0] No session ID available')
       return
     }
 
     try {
       const sessionRef = ref(database, `sessions/${sessionId}`)
-      await set(sessionRef, {
-        companyName,
-        fullName,
-        email,
+      await update(sessionRef, {
+        companyName: companyName.trim(),
+        fullName: fullName.trim(),
+        email: email.trim(),
         presentationDate,
-        createdAt: new Date().toISOString(),
         lastUpdated: new Date().toISOString(),
         [selectionType]: data,
       })
       console.log(`[v0] Saved ${selectionType} to Firebase`)
     } catch (error) {
       console.error(`[v0] Error saving ${selectionType}:`, error)
+      alert('We could not save your selections. Please try again.')
     }
   }
 
@@ -1134,7 +1173,7 @@ export default function Page() {
                                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
                                 aria-label="Previous image"
                               >
-                                <ChevronLeft />
+                                <FaChevronLeft className="w-4 h-4" />
                               </button>
                               
                               <button
@@ -1145,7 +1184,7 @@ export default function Page() {
                                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
                                 aria-label="Next image"
                               >
-                                <ChevronRight />
+                                <FaChevronRight className="w-4 h-4" />
                               </button>
 
                               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
@@ -1179,16 +1218,11 @@ export default function Page() {
                             className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
                           >
                             <h3 className="text-xl sm:text-2xl font-bold text-foreground">Trackit Options</h3>
-                            <svg
+                            <FaChevronDown
                               className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-300 ${
                                 trackingOptionsOpen ? 'rotate-180' : ''
                               }`}
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
+                            />
                           </button>
 
                           <div
@@ -1439,7 +1473,7 @@ export default function Page() {
                                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
                                 aria-label="Previous image"
                               >
-                                <ChevronLeft />
+                                <FaChevronLeft className="w-4 h-4" />
                               </button>
                               
                               <button
@@ -1450,7 +1484,7 @@ export default function Page() {
                                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200 opacity-0 group-hover:opacity-100"
                                 aria-label="Next image"
                               >
-                                <ChevronRight />
+                                <FaChevronRight className="w-4 h-4" />
                               </button>
 
                               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
@@ -1604,16 +1638,11 @@ export default function Page() {
                           className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
                         >
                           <h3 className="text-lg sm:text-2xl font-bold text-foreground">Pick-Up & Drop-Off Options</h3>
-                          <svg
+                          <FaChevronDown
                             className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-300 ${
                               pickupDropoffOpen ? 'rotate-180' : ''
                             }`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
+                          />
                         </button>
 
                         <div
@@ -1622,56 +1651,14 @@ export default function Page() {
                           } overflow-hidden`}
                         >
                           <div className="p-5 sm:p-8 space-y-4 md:space-y-6">
-                            {[
-                              {
-                                title: 'Login & Welcome',
-                                icon: '🔐',
-                                items: [
-                                  { key: 'login', label: 'Login with email or phone number' },
-                                  { key: 'welcomeScreen', label: 'Welcome screen and rental information display' },
-                                ]
-                              },
-                              {
-                                title: 'Check-In',
-                                icon: '✅',
-                                items: [
-                                  { key: 'idVerification', label: 'ID Verification' },
-                                  { key: 'agreementSignature', label: 'Agreement Signature' },
-                                  { key: 'insuranceOptions', label: 'Coverage / Insurance Options' },
-                                  { key: 'addOns', label: 'Add-Ons Selection' },
-                                ]
-                              },
-                              {
-                                title: 'Pick-Up',
-                                icon: '🚗',
-                                items: [
-                                  { key: 'videoDisplay', label: 'Video Display (how-to or vehicle overview)' },
-                                  { key: 'vehicleLocation', label: 'Vehicle Location' },
-                                  { key: 'preTripPhotos', label: 'Pre-Trip Photos' },
-                                  { key: 'codeDisplay', label: 'Code Display or Lock / Unlock' },
-                                  { key: 'openScreen', label: 'Open Screen' },
-                                  { key: 'goodTripScreen', label: '"Good Trip" Screen' },
-                                ]
-                              },
-                              {
-                                title: 'Drop-Off',
-                                icon: '🏁',
-                                items: [
-                                  { key: 'checklistReminder', label: 'Checklist Reminder' },
-                                  { key: 'postTripPhotos', label: 'Post-Trip Photos' },
-                                  { key: 'keyPhoto', label: 'Key Photo' },
-                                  { key: 'lockScreen', label: 'Lock Screen' },
-                                  { key: 'dropOffForm', label: 'Drop-Off Form' },
-                                  { key: 'feedbackForm', label: 'Feedback Form' },
-                                  { key: 'googleReview', label: 'Google Review' },
-                                ]
-                              },
-                            ].map((group) => (
-                              <div key={group.title} className="bg-secondary p-4 sm:p-6 rounded-lg border border-gray-200">
-                                <h4 className="text-base sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-1 md:gap-2">
-                                  <span className="text-xl sm:text-2xl">{group.icon}</span>
-                                  {group.title}
-                                </h4>
+                            {pickupOptionGroups.map((group) => {
+                              const Icon = group.icon
+                              return (
+                                <div key={group.title} className="bg-secondary p-4 sm:p-6 rounded-lg border border-gray-200">
+                                  <h4 className="text-base sm:text-xl font-bold text-foreground mb-3 md:mb-4 flex items-center gap-2 md:gap-3">
+                                    <Icon className="text-xl sm:text-2xl text-primary" />
+                                    {group.title}
+                                  </h4>
                                 <div className="space-y-2 md:space-y-3">
                                   {group.items.map((item) => (
                                     <label
@@ -1693,8 +1680,9 @@ export default function Page() {
                                     </label>
                                   ))}
                                 </div>
-                              </div>
-                            ))}
+                                </div>
+                              )
+                            })}
 
                             <div className="pt-3 md:pt-4 flex justify-center">
                               <button
@@ -1723,16 +1711,11 @@ export default function Page() {
                           className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
                         >
                           <h3 className="text-xl sm:text-2xl font-bold text-foreground">Pricing</h3>
-                          <svg
+                          <FaChevronDown
                             className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-300 ${
                               pricingOpen ? 'rotate-180' : ''
                             }`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
+                          />
                         </button>
 
                         <div
@@ -1932,7 +1915,7 @@ export default function Page() {
                 size="lg"
                 className="gap-1 md:gap-2 disabled:opacity-30 border-gray-300 hover:bg-gray-50 font-medium text-sm md:text-base px-3 md:px-4"
               >
-                <ChevronLeft />
+                <FaChevronLeft className="w-4 h-4" />
                 <span className="hidden sm:inline">Previous</span>
                 <span className="sm:hidden">Prev</span>
               </Button>
@@ -1954,7 +1937,7 @@ export default function Page() {
               >
                 <span className="hidden sm:inline">Next</span>
                 <span className="sm:hidden">Next</span>
-                <ChevronRight />
+                <FaChevronRight className="w-4 h-4" />
               </Button>
             </div>
           </div>
@@ -2001,7 +1984,7 @@ export default function Page() {
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
               aria-label="Previous image"
             >
-              <ChevronLeft />
+              <FaChevronLeft className="w-5 h-5" />
             </button>
 
             <button
@@ -2023,7 +2006,7 @@ export default function Page() {
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors"
               aria-label="Next image"
             >
-              <ChevronRight />
+              <FaChevronRight className="w-5 h-5" />
             </button>
 
             <div className="max-w-7xl max-h-full w-full h-full flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
