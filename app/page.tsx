@@ -16,17 +16,12 @@ import {
   FaBullseye, 
   FaShieldAlt, 
   FaRocket,
-  FaMapMarkerAlt,
-  FaBell,
-  FaMapMarked,
   FaCar,
   FaExclamationTriangle,
   FaBatteryFull,
-  FaLock,
   FaDesktop,
   FaRobot,
-  FaCloud,
-  FaChartBar
+  FaCloud
 } from 'react-icons/fa'
 import { MdComputer } from 'react-icons/md'
 
@@ -157,24 +152,6 @@ const slides = [
     tabLine1: "Rental Buddy",
     tabLine2: "",
     hasSubTabs: true,
-  },
-  {
-    id: "why-together",
-    title: "Demo",
-    tabLine1: "Demo",
-    tabLine2: "",
-  },
-  {
-    id: "implementation",
-    title: "Implementation",
-    tabLine1: "Implementation",
-    tabLine2: "",
-  },
-  {
-    id: "next-steps",
-    title: "Next Steps",
-    tabLine1: "Next Steps",
-    tabLine2: "",
   },
 ]
 
@@ -604,33 +581,31 @@ export default function Page() {
     <div className="min-h-screen flex flex-col bg-background overflow-x-hidden">
       <header className="border-b border-gray-200 bg-white sticky top-0 z-20 shadow-sm">
         <div className="w-full">
-          <div className="flex items-center justify-start px-4 sm:px-6 py-3 gap-3 bg-white/80 backdrop-blur supports-[backdrop-filter]:backdrop-blur-md">
-            <div className="flex items-center gap-2">
-              <img src="/images/shaka_round_orange.png" alt="Workspace logo" className="h-9 w-9 rounded-full object-cover" />
+          <div className="flex items-center gap-3 px-4 sm:px-6 py-3 bg-white/80 backdrop-blur supports-[backdrop-filter]:backdrop-blur-md">
+            <img src="/images/shaka_round_orange.png" alt="Workspace logo" className="h-9 w-9 rounded-full object-cover flex-shrink-0" />
+            <div className="flex-1 overflow-hidden">
+              <nav className="flex gap-2 sm:gap-4 md:gap-6 overflow-x-auto px-0 sm:px-2 py-1.5 scrollbar-hide min-h-[40px]">
+                {slides.map((slide, index) => {
+                  return (
+                    <button
+                      key={slide.id}
+                      onClick={() => goToSlide(index)}
+                      className={`
+                        relative text-xs sm:text-sm md:text-base font-medium transition-all duration-200 flex-shrink-0 whitespace-nowrap
+                        px-3 py-1.5 rounded-full border
+                        ${
+                          currentSlide === index
+                            ? "text-primary border-primary bg-primary/10"
+                            : "text-muted-foreground border-transparent hover:text-primary hover:bg-primary/5"
+                        }
+                      `}
+                    >
+                      {slide.tabLine1}
+                    </button>
+                  )
+                })}
+              </nav>
             </div>
-          </div>
-          <div className="w-full overflow-hidden">
-            <nav className="flex gap-2 sm:gap-4 md:gap-6 overflow-x-auto px-4 sm:px-6 py-3 scrollbar-hide min-h-[54px]">
-            {slides.map((slide, index) => {
-              return (
-                <button
-                  key={slide.id}
-                  onClick={() => goToSlide(index)}
-                  className={`
-                      relative text-xs sm:text-sm md:text-base font-medium transition-all duration-200 flex-shrink-0 whitespace-nowrap
-                      px-3 py-1.5 rounded-full border
-                    ${
-                      currentSlide === index
-                          ? "text-primary border-primary bg-primary/10"
-                          : "text-muted-foreground border-transparent hover:text-primary hover:bg-primary/5"
-                    }
-                  `}
-                >
-                  {slide.tabLine1}
-                </button>
-              )
-            })}
-          </nav>
           </div>
         </div>
       </header>
@@ -1826,26 +1801,61 @@ export default function Page() {
                           </p>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+                        <div className="max-w-4xl mx-auto w-full">
                           <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md flex flex-col">
-                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground">Shakkii Intro Video (1 min)</h3>
+                            <h3 className="text-xl sm:text-2xl font-bold mb-3 md:mb-4 text-foreground text-center">Shakkii Intro Video (1 min)</h3>
                             
                             <div className="flex-1 bg-black rounded-lg md:rounded-xl overflow-hidden border border-border min-h-[200px] sm:min-h-[300px]">
                               <iframe
                                 className="w-full h-full min-h-[200px] sm:min-h-[300px]"
-                                src="https://www.youtube.com/embed/PXu-G7ftU5M"
+                                src="https://www.youtube.com/embed/hqgyjSo7C-I"
                                 title="Rental Buddy Shakkii Demo"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                               />
                             </div>
                           </div>
+                        </div>
 
-                          <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md flex flex-col justify-center">
-                            <h3 className="text-xl sm:text-2xl font-bold mb-3 text-foreground">Unified Data Integration</h3>
-                            <p className="text-base sm:text-lg md:text-xl text-foreground leading-relaxed">
-                              Shakkii provides a single source of truth by integrating disparate data sources, including rental status, service orders, vehicle location, and registration data. This unified view improves decision-making around asset deployment and utilization.
-                            </p>
+                        <div className="bg-secondary p-4 sm:p-6 rounded-xl md:rounded-2xl border border-border shadow-md">
+                          <h3 className="text-xl sm:text-2xl font-bold mb-4 md:mb-6 text-foreground text-center">Shakkii delivers</h3>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                            <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                              <FaCloud className="text-xl text-primary flex-shrink-0 mt-1" />
+                              <div>
+                                <h4 className="font-bold text-foreground mb-1">Unified Source of Truth</h4>
+                                <p className="text-sm text-muted-foreground">
+                                  Creation of a Unified Source of Truth for Asset Tracking.
+                                </p>
+                              </div>
+                            </div>
+                            <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                              <FaRobot className="text-xl text-primary flex-shrink-0 mt-1" />
+                              <div>
+                                <h4 className="font-bold text-foreground mb-1">AI Guidance Everywhere</h4>
+                                <p className="text-sm text-muted-foreground">
+                                  Leveraging AI to prevent bottlenecks and guide actions.
+                                </p>
+                              </div>
+                            </div>
+                            <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                              <FaDesktop className="text-xl text-primary flex-shrink-0 mt-1" />
+                              <div>
+                                <h4 className="font-bold text-foreground mb-1">Dynamic Workforce Management</h4>
+                                <p className="text-sm text-muted-foreground">
+                                  Dynamic workforce management keeps crews aligned with live demand.
+                                </p>
+                              </div>
+                            </div>
+                            <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
+                              <FaBullseye className="text-xl text-primary flex-shrink-0 mt-1" />
+                              <div>
+                                <h4 className="font-bold text-foreground mb-1">Continuous Outcomes</h4>
+                                <p className="text-sm text-muted-foreground">
+                                  Focus on practical business outcomes and continuous improvement.
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
@@ -1880,106 +1890,9 @@ export default function Page() {
 
                       </div>
 
-                      <div className="bg-secondary p-6 sm:p-8 rounded-xl md:rounded-2xl border border-border shadow-lg">
-                        <h3 className="text-2xl sm:text-3xl font-bold mb-6 md:mb-8 text-primary text-center flex items-center justify-center gap-2">
-                          <FaCloud className="text-2xl sm:text-3xl" />
-                          Technical Foundation
-                        </h3>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
-                            <FaRobot className="text-xl text-primary flex-shrink-0 mt-1" />
-                            <div>
-                              <h4 className="font-bold text-foreground mb-1">Agentic Kanban framework</h4>
-                              <p className="text-sm text-muted-foreground">AI-powered workflow management</p>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
-                            <FaSyncAlt className="text-xl text-primary flex-shrink-0 mt-1" />
-                            <div>
-                              <h4 className="font-bold text-foreground mb-1">Forms → agents → actions pipeline</h4>
-                              <p className="text-sm text-muted-foreground">Automated workflow generation</p>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
-                            <FaMapMarkerAlt className="text-xl text-primary flex-shrink-0 mt-1" />
-                            <div>
-                              <h4 className="font-bold text-foreground mb-1">Integrates with RCM, Trackit, Pick-Up & Drop-Off</h4>
-                              <p className="text-sm text-muted-foreground">Seamless data flow across platforms</p>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
-                            <FaBell className="text-xl text-primary flex-shrink-0 mt-1" />
-                            <div>
-                              <h4 className="font-bold text-foreground mb-1">Chat + notifications</h4>
-                              <p className="text-sm text-muted-foreground">SMS, Email, Slack, WhatsApp</p>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
-                            <FaChartBar className="text-xl text-primary flex-shrink-0 mt-1" />
-                            <div>
-                              <h4 className="font-bold text-foreground mb-1">GPS + renter + vehicle data combined</h4>
-                              <p className="text-sm text-muted-foreground">Unified data system</p>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3">
-                            <FaLock className="text-xl text-primary flex-shrink-0 mt-1" />
-                            <div>
-                              <h4 className="font-bold text-foreground mb-1">User-level roles and permissions</h4>
-                              <p className="text-sm text-muted-foreground">Secure access control</p>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-card p-4 sm:p-5 rounded-lg border border-border shadow-sm flex items-start gap-3 sm:col-span-2">
-                            <FaCloud className="text-xl text-primary flex-shrink-0 mt-1" />
-                            <div>
-                              <h4 className="font-bold text-foreground mb-1">Cloud storage & audit history</h4>
-                              <p className="text-sm text-muted-foreground">Complete operational transparency and data retention</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   )}
                 </>
-              )}
-
-              {currentSlide === 3 && (
-                <div className="animate-in fade-in slide-in-from-right duration-500">
-                  <h2 className={`${sectionHeading} mb-6 md:mb-10`}>
-                    Demo
-                  </h2>
-                  <div className="space-y-4 md:space-y-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
-                    <p>[Add your implementation benefits content here]</p>
-                  </div>
-                </div>
-              )}
-
-              {currentSlide === 4 && (
-                <div className="animate-in fade-in slide-in-from-right duration-500">
-                  <h2 className={`${sectionHeading} mb-6 md:mb-10`}>
-                    Implementation
-                  </h2>
-                  <div className="space-y-4 md:space-y-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
-                    <p>[Add your implementation details content here]</p>
-                  </div>
-                </div>
-              )}
-
-              {currentSlide === 5 && (
-                <div className="animate-in fade-in slide-in-from-right duration-500">
-                  <h2 className={`${sectionHeading} mb-6 md:mb-10`}>
-                    Next Steps
-                  </h2>
-                  <div className="space-y-4 md:space-y-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
-                    <p>[Add your next steps content here]</p>
-                  </div>
-                </div>
               )}
 
               <div className="mt-8 md:mt-12">
