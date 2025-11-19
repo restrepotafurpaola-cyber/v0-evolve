@@ -263,23 +263,6 @@ export default function Page() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxSource, setLightboxSource] = useState<'spatial' | 'technical' | 'pickup' | 'pickupJourney' | 'seeItInAction'>('spatial')
   
-  // Auto-play carousel every 4 seconds
-  useEffect(() => {
-    const autoPlayInterval = setInterval(() => {
-      setCarouselIndex((prev) => (prev + 1) % carouselImages.length)
-    }, 4000) // Change image every 4 seconds
-
-    return () => clearInterval(autoPlayInterval)
-  }, [])
-  
-  useEffect(() => {
-    const autoPlayInterval = setInterval(() => {
-      setTechFoundationIndex((prev) => (prev + 1) % technicalFoundationImages.length)
-    }, 4000)
-
-    return () => clearInterval(autoPlayInterval)
-  }, [])
-  
   const [trackingOptionsOpen, setTrackingOptionsOpen] = useState(false)
   const [pickupDropoffOpen, setPickupDropoffOpen] = useState(false)
   const [pricingOpen, setPricingOpen] = useState(false)
@@ -2026,15 +2009,6 @@ export default function Page() {
                   {currentSlide === 2
                     ? `${currentSubTab + 1} / ${productSubTabs.length}`
                     : `${currentSlide + 1} / ${slides.length}`}
-                </div>
-                <div className="text-xs text-muted-foreground items-center gap-1 hidden sm:flex">
-                  <kbd className="px-2 py-0.5 text-xs font-medium text-foreground bg-card border border-gray-300 rounded">
-                    ←
-                  </kbd>
-                  <kbd className="px-2 py-0.5 text-xs font-medium text-foreground bg-card border border-gray-300 rounded">
-                    →
-                  </kbd>
-                  <span>to navigate</span>
                 </div>
               </div>
 
