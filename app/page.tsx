@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import type { IconType } from "react-icons"
 import { Button } from "@/components/ui/button"
 import { database, ref, set, push, update } from "@/lib/firebase"
 import { Input } from "@/components/ui/input"
@@ -28,6 +29,60 @@ import {
   FaChevronRight
 } from 'react-icons/fa'
 import { MdComputer } from 'react-icons/md'
+
+type SelectionOption = {
+  key: string
+  label: string
+  tooltip?: string
+}
+
+type PickupOptionGroup = {
+  title: string
+  icon: IconType
+  items: SelectionOption[]
+}
+
+const trackitEssentialsOptions: SelectionOption[] = [
+  { key: 'gpsLocation', label: 'GPS Location' },
+  { key: 'alerts', label: 'Alerts' },
+  { key: 'geofencing', label: 'Geofencing' },
+  { key: 'crashEvents', label: 'Crash Events' },
+  { key: 'dtcCodes', label: 'DTC Codes' },
+  { key: 'batteryAlerts', label: 'Battery Alerts' },
+  { key: 'twelveMonthHistory', label: '12-Month History' },
+]
+
+const trackitAiOptions: SelectionOption[] = [
+  { 
+    key: 'lateMissedReturnPrediction', 
+    label: 'Late & Missed Return Prediction',
+    tooltip: 'Detect potential delays or missed drop-offs before they happen.'
+  },
+  { 
+    key: 'geofenceEntryIntentPrediction', 
+    label: 'Geofence Entry & Intent Prediction',
+    tooltip: 'Predict renter intention to travel toward or enter a restricted (non-permitted) area.'
+  },
+  { 
+    key: 'routeDestinationInsights', 
+    label: 'Route & Destination Insights',
+    tooltip: 'Identify where renters actually travel and discover high-demand zones.'
+  },
+  { 
+    key: 'drivingBehaviorTripQuality', 
+    label: 'Driving Behavior & Trip Quality',
+    tooltip: 'Detect patterns like overspeeding, harsh braking, or detours to assess trip quality and safety.'
+  },
+]
+
+const buildLabelMap = (options: SelectionOption[], prefix: string) =>
+  options.reduce((acc, option) => {
+    acc[option.key] = `${prefix} · ${option.label}`
+    return acc
+  }, {} as Record<string, string>)
+
+const trackitEssentialsLabels = buildLabelMap(trackitEssentialsOptions, 'Trackit Essentials')
+const trackitAiLabels = buildLabelMap(trackitAiOptions, 'Trackit AI')
 
 const carouselImages = [
   {
@@ -145,7 +200,7 @@ const pickupJourneyImages = [
   }
 ]
 
-const pickupOptionGroups = [
+const pickupOptionGroups: PickupOptionGroup[] = [
   {
     title: 'Login & Welcome',
     icon: FaSignInAlt,
@@ -190,6 +245,21 @@ const pickupOptionGroups = [
     ]
   },
 ]
+
+const pickupOptionLabelMap = pickupOptionGroups.reduce((acc, group) => {
+  group.items.forEach((item) => {
+    acc[item.key] = `${group.title} · ${item.label}`
+  })
+  return acc
+}, {} as Record<string, string>)
+
+const summarizeSelections = (
+  selections: Record<string, boolean>,
+  labels: Record<string, string>
+) =>
+  Object.entries(selections)
+    .filter(([, value]) => value)
+    .map(([key]) => labels[key] ?? key)
 
 const slides = [
   {
@@ -1237,15 +1307,7 @@ export default function Page() {
                                   Essentials
                                 </h4>
                                 <div className="space-y-2 md:space-y-3 ml-3 md:ml-4">
-                                  {[
-                                    { key: 'gpsLocation', label: 'GPS Location' },
-                                    { key: 'alerts', label: 'Alerts' },
-                                    { key: 'geofencing', label: 'Geofencing' },
-                                    { key: 'crashEvents', label: 'Crash Events' },
-                                    { key: 'dtcCodes', label: 'DTC Codes' },
-                                    { key: 'batteryAlerts', label: 'Battery Alerts' },
-                                    { key: 'twelveMonthHistory', label: '12-Month History' },
-                                  ].map((item) => (
+                                  {trackitEssentialsOptions.map((item) => (
                                     <label
                                       key={item.key}
                                       className="flex items-center justify-between p-2 sm:p-3 rounded-lg hover:bg-secondary cursor-pointer transition-colors duration-150"
@@ -1253,7 +1315,7 @@ export default function Page() {
                                       <span className="text-base sm:text-lg text-foreground">{item.label}</span>
                                       <input
                                         type="checkbox"
-                                        checked={trackingEssentials[item.key as keyof typeof trackingEssentials] || false}
+                                        checked={!!trackingEssentials[item.key as keyof typeof trackingEssentials]}
                                         onChange={(e) =>
                                           setTrackingEssentials({
                                             ...trackingEssentials,
@@ -1273,28 +1335,7 @@ export default function Page() {
                                   AI & Intelligent Data
                                 </h4>
                                 <div className="space-y-2 md:space-y-3 ml-3 md:ml-4">
-                                  {[
-                                    { 
-                                      key: 'lateMissedReturnPrediction', 
-                                      label: 'Late & Missed Return Prediction',
-                                      tooltip: 'Detect potential delays or missed drop-offs before they happen.'
-                                    },
-                                    { 
-                                      key: 'geofenceEntryIntentPrediction', 
-                                      label: 'Geofence Entry & Intent Prediction',
-                                      tooltip: 'Predict renter intention to travel toward or enter a restricted (non-permitted) area.' // Updated description
-                                    },
-                                    { 
-                                      key: 'routeDestinationInsights', 
-                                      label: 'Route & Destination Insights',
-                                      tooltip: 'Identify where renters actually travel and discover high-demand zones.'
-                                    },
-                                    { 
-                                      key: 'drivingBehaviorTripQuality', 
-                                      label: 'Driving Behavior & Trip Quality',
-                                      tooltip: 'Detect patterns like overspeeding, harsh braking, or detours to assess trip quality and safety.'
-                                    },
-                                  ].map((item) => (
+                                  {trackitAiOptions.map((item) => (
                                     <label
                                       key={item.key}
                                       className="flex items-center justify-between p-2 sm:p-3 rounded-lg hover:bg-secondary cursor-pointer transition-colors duration-150 group"
@@ -1313,7 +1354,7 @@ export default function Page() {
                                       </div>
                                       <input
                                         type="checkbox"
-                                        checked={aiDataIntelligence[item.key as keyof typeof aiDataIntelligence] || false}
+                                        checked={!!aiDataIntelligence[item.key as keyof typeof aiDataIntelligence]}
                                         onChange={(e) =>
                                           setAiDataIntelligence({
                                             ...aiDataIntelligence,
@@ -1402,10 +1443,15 @@ export default function Page() {
                                 <div className="mt-4 md:mt-6 flex justify-center">
                                   <button
                                     onClick={async () => {
+                                      const essentialsSelected = summarizeSelections(trackingEssentials, trackitEssentialsLabels)
+                                      const aiInsightsSelected = summarizeSelections(aiDataIntelligence, trackitAiLabels)
                                       await saveSelectionsToFirebase('trackitSelections', {
+                                        formLabel: 'Trackit Options',
                                         trackingEssentials,
                                         aiDataIntelligence,
                                     questionnaire: trackitQuestionnaire,
+                                        essentialsSelected,
+                                        aiInsightsSelected,
                                         savedAt: new Date().toISOString(),
                                       })
                                       alert('Your Trackit selections have been saved!')
@@ -1668,7 +1714,7 @@ export default function Page() {
                                       <span className="text-sm sm:text-base font-medium text-foreground">{item.label}</span>
                                       <input
                                         type="checkbox"
-                                        checked={pickupDropoffOptions[item.key as keyof typeof pickupDropoffOptions]}
+                                        checked={!!pickupDropoffOptions[item.key as keyof typeof pickupDropoffOptions]}
                                         onChange={(e) =>
                                           setPickupDropoffOptions({
                                             ...pickupDropoffOptions,
@@ -1687,8 +1733,11 @@ export default function Page() {
                             <div className="pt-3 md:pt-4 flex justify-center">
                               <button
                                 onClick={async () => {
+                                  const selectedFlows = summarizeSelections(pickupDropoffOptions, pickupOptionLabelMap)
                                   await saveSelectionsToFirebase('pickupDropoffSelections', {
+                                    formLabel: 'Pick-Up & Drop-Off',
                                     options: pickupDropoffOptions,
+                                    selectedFlows,
                                     savedAt: new Date().toISOString(),
                                   })
                                   alert('Your selections have been saved!')
