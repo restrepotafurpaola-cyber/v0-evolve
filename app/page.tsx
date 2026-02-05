@@ -286,9 +286,9 @@ const slides = [
 
 const productSubTabs = [
   {
-    id: "rental-buddy-overview",
-    title: "Overview",
-    tabLine1: "Overview",
+    id: "rental-buddy-ecosystem",
+    title: "Ecosystem",
+    tabLine1: "Ecosystem",
   },
   {
     id: "track-kit",
@@ -297,7 +297,7 @@ const productSubTabs = [
   },
   {
     id: "flexible-pickup",
-    title: "Pick-Up & Drop-Off",
+    title: "Flexible Pick-Up & Drop-Off",
     tabLine1: "Pick-Up & Drop-Off",
   },
   {
@@ -738,22 +738,40 @@ export default function Page() {
                     Content
                   </h2>
                   <div className="space-y-4 md:space-y-5 text-foreground leading-relaxed">
-                    {[
-                      { title: 'Overview', desc: 'The AI Infrastructure for Vehicle Rental Operations' },
-                      { title: 'Trackit', desc: 'GPS tracking & fleet intelligence' },
-                      { title: 'Pick-Up & Drop-Off', desc: 'Flexible self-service rental flow' },
-                      { title: 'Shakkii', desc: 'The operational brain of your rental business' },
-                    ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-3 md:gap-4 p-3 md:p-4 bg-secondary/50 rounded-xl border border-border hover:bg-secondary transition-colors">
-                        <span className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm md:text-base font-bold">
-                          {idx + 1}
-                        </span>
-                        <div className="pt-0.5">
-                          <p className="font-bold text-base md:text-lg text-foreground">{item.title}</p>
-                          <p className="text-sm md:text-base text-muted-foreground">{item.desc}</p>
+                    {/* 1. Overview */}
+                    <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 bg-secondary/50 rounded-xl border border-border hover:bg-secondary transition-colors">
+                      <span className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm md:text-base font-bold">
+                        1
+                      </span>
+                      <div className="pt-0.5">
+                        <p className="font-bold text-base md:text-lg text-foreground">Overview</p>
+                        <p className="text-sm md:text-base text-muted-foreground">The AI Infrastructure for Vehicle Rental Operations</p>
+                      </div>
+                    </div>
+                    
+                    {/* 2. Products */}
+                    <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 bg-secondary/50 rounded-xl border border-border">
+                      <span className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm md:text-base font-bold">
+                        2
+                      </span>
+                      <div className="pt-0.5 w-full">
+                        <p className="font-bold text-base md:text-lg text-foreground mb-3">Products</p>
+                        <div className="space-y-2 ml-1">
+                          {[
+                            { title: 'Ecosystem', desc: 'Rental Buddy platform overview' },
+                            { title: 'Trackit', desc: 'GPS tracking & fleet intelligence' },
+                            { title: 'Flexible Pick-Up & Drop-Off', desc: 'Zipcar style rental flow' },
+                            { title: 'Shakkii', desc: 'The operational brain of your rental business' },
+                          ].map((item, idx) => (
+                            <div key={idx} className="flex items-center gap-2 text-sm md:text-base">
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
+                              <span className="font-medium text-foreground">{item.title}</span>
+                              <span className="text-muted-foreground">— {item.desc}</span>
+                            </div>
+                          ))}
                         </div>
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </div>
               )}
@@ -1689,9 +1707,9 @@ export default function Page() {
                     <div className="animate-in fade-in slide-in-from-right duration-500">
                       <div className="space-y-6 md:space-y-10">
                         <div className="text-center">
-                          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 md:mb-6 text-primary text-balance leading-tight">
+                          <h2 className={`${heroHeading} mb-4 md:mb-6`}>
                             Rental Buddy Shakkii
-                      </h2>
+                          </h2>
                           <p className="text-xl sm:text-2xl text-muted-foreground italic">
                             The operational brain of your entire rental business
                           </p>
