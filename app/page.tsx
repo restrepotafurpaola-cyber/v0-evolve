@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import type { IconType } from "react-icons"
 import { Button } from "@/components/ui/button"
-import { database, ref, set, push, update } from "@/lib/firebase"
+// Firebase deshabilitado temporalmente
+// import { database, ref, set, push, update } from "@/lib/firebase"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { 
@@ -503,7 +504,7 @@ export default function Page() {
   }, [lightboxOpen, carouselIndex, techFoundationIndex, pickupCarouselIndex, pickupJourneyIndex, seeItInActionIndex, lightboxSource])
   
 
-  const handleStartPresentation = async () => {
+  const handleStartPresentation = () => {
     if (!companyName.trim()) {
       alert('Please enter a company name')
       return
@@ -517,54 +518,16 @@ export default function Page() {
       return
     }
 
-    try {
-      // Create new session in Firebase
-      const sessionsRef = ref(database, 'sessions')
-      const newSessionRef = push(sessionsRef)
-      const newSessionId = newSessionRef.key
-
-      await set(newSessionRef, {
-        companyName: companyName.trim(),
-        fullName: fullName.trim(),
-        email: email.trim(),
-        presentationDate,
-        createdAt: new Date().toISOString(),
-        trackingEssentials,
-        aiDataIntelligence,
-        pickupDropoffOptions,
-      })
-
-      console.log('[v0] Session created:', newSessionId)
-      setSessionId(newSessionId)
-      setShowWelcome(false)
-    } catch (error) {
-      console.error('[v0] Error creating session:', error)
-      alert('Error starting presentation. Please try again.')
-    }
+    // Generar ID local y continuar
+    const localSessionId = `session-${Date.now()}`
+    console.log('[v0] Session started:', localSessionId)
+    setSessionId(localSessionId)
+    setShowWelcome(false)
   }
 
-  const saveSelectionsToFirebase = async (selectionType: string, data: any) => {
-    if (!sessionId) {
-      alert('Please start the presentation to save your selections.')
-      console.error('[v0] No session ID available')
-      return
-    }
-
-    try {
-      const sessionRef = ref(database, `sessions/${sessionId}`)
-      await update(sessionRef, {
-        companyName: companyName.trim(),
-        fullName: fullName.trim(),
-        email: email.trim(),
-        presentationDate,
-        lastUpdated: new Date().toISOString(),
-        [selectionType]: data,
-      })
-      console.log(`[v0] Saved ${selectionType} to Firebase`)
-    } catch (error) {
-      console.error(`[v0] Error saving ${selectionType}:`, error)
-      alert('We could not save your selections. Please try again.')
-    }
+  const saveSelectionsToFirebase = (selectionType: string, data: unknown) => {
+    // Firebase deshabilitado - solo log local
+    console.log(`[v0] Selection saved locally: ${selectionType}`, data)
   }
 
   const goToSlide = (index: number) => {

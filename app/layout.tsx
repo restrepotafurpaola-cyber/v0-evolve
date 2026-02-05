@@ -1,14 +1,19 @@
 import type { Metadata } from 'next'
-import { Inter, Geist_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"], 
+  variable: '--font-inter',
+  display: 'swap',
+  // Font features para mejor legibilidad según Design System
+  // cv02, cv03, cv04, cv11
+});
 
 export const metadata: Metadata = {
-  title: '360 Sierra',
-  description: '360 Sierra presentation workspace',
+  title: 'Rental Buddy - Sales Presentation',
+  description: 'Rental Buddy pitch deck - Febrero 2026',
   generator: 'v0.app',
   icons: {
     icon: [
