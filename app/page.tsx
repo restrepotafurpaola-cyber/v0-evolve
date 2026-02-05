@@ -264,15 +264,15 @@ const summarizeSelections = (
 
 const slides = [
   {
-    id: "agenda",
-    title: "Agenda",
-    tabLine1: "Agenda",
+    id: "content",
+    title: "Content",
+    tabLine1: "Content",
     tabLine2: "",
   },
   {
     id: "overview",
-    title: "360 Sierra",
-    tabLine1: "360 Sierra",
+    title: "Overview",
+    tabLine1: "Overview",
     tabLine2: "",
   },
   {
@@ -735,22 +735,23 @@ export default function Page() {
               {currentSlide === 0 && (
                 <div className="animate-in fade-in slide-in-from-right duration-500">
                   <h2 className={`${sectionHeading} mb-6 md:mb-10 text-left`}>
-                    Agenda
+                    Content
                   </h2>
                   <div className="space-y-4 md:space-y-5 text-foreground leading-relaxed">
                     {[
-                      'Introductions',
-                      'Our Company & Vision',
-                      'Product Overview',
-                      'Why It Works Better Together — Full Demo',
-                      'Implementation Plan',
-                      'Next Steps'
+                      { title: 'Overview', desc: 'The AI Infrastructure for Vehicle Rental Operations' },
+                      { title: 'Trackit', desc: 'GPS tracking & fleet intelligence' },
+                      { title: 'Pick-Up & Drop-Off', desc: 'Flexible self-service rental flow' },
+                      { title: 'Shakkii', desc: 'The operational brain of your rental business' },
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-3 md:gap-4">
-                        <span className="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 rounded-full bg-primary text-white flex items-center justify-center text-xs md:text-sm font-medium">
+                      <div key={idx} className="flex items-start gap-3 md:gap-4 p-3 md:p-4 bg-secondary/50 rounded-xl border border-border hover:bg-secondary transition-colors">
+                        <span className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm md:text-base font-bold">
                           {idx + 1}
                         </span>
-                        <p className="pt-0.5 md:pt-1 text-sm md:text-base">{item}</p>
+                        <div className="pt-0.5">
+                          <p className="font-bold text-base md:text-lg text-foreground">{item.title}</p>
+                          <p className="text-sm md:text-base text-muted-foreground">{item.desc}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -759,46 +760,48 @@ export default function Page() {
 
               {currentSlide === 1 && (
                 <div className="animate-in fade-in slide-in-from-right duration-500">
-                  <h2 className={`${heroHeading} mb-6 md:mb-10`}>
-                    360 Sierra — Our Vision
+                  <h2 className={`${heroHeading} mb-4 md:mb-6 text-center`}>
+                    <span className="text-primary">The AI Infrastructure</span>
+                    <br className="hidden sm:block" />
+                    <span className="sm:text-foreground"> for Vehicle Rental Operations</span>
                   </h2>
                   <div className="space-y-5 sm:space-y-8 text-foreground leading-relaxed max-w-5xl mx-auto">
-                    <p className="text-base sm:text-xl font-bold text-primary border-l-4 border-primary pl-3 md:pl-4 py-2">
-                      Built by operators, for operators.
-                    </p>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 text-sm sm:text-base md:text-lg">
-                      <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
-                        <h3 className="text-lg sm:text-2xl font-bold text-foreground mb-2 md:mb-3">Who We Are</h3>
-                        <p className="text-foreground leading-relaxed">
-                          <span className="font-semibold">360 Sierra</span> is a{" "}
-                          <span className="font-bold text-primary">U.S.-based startup</span> created by a team with{" "}
-                          <span className="font-bold text-primary">over 20 years of experience</span> in software and hardware development.
-                        </p>
-                      </div>
-
-                      <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
-                        <h3 className="text-lg sm:text-2xl font-bold text-foreground mb-2 md:mb-3">The Problem We Saw</h3>
-                        <p className="text-foreground leading-relaxed">
-                          After running our own <span className="font-bold text-primary">RV rental business</span>, we saw how hard it is to manage operations across{" "}
-                          <span className="font-bold">fragmented tools and disconnected systems</span>.
-                        </p>
-                      </div>
-
-                      <div className="bg-secondary p-4 sm:p-6 rounded-xl border border-border shadow-sm">
-                        <h3 className="text-lg sm:text-2xl font-bold text-foreground mb-2 md:mb-3">Our Solution</h3>
-                        <p className="text-foreground leading-relaxed">
-                          That experience led us to build <span className="font-bold text-primary">Rental Buddy</span>, a platform that combines{" "}
-                          <span className="font-bold">AI</span> and{" "}
-                          <span className="font-bold">IoT</span> to connect data, simplify operations, and automate workflows.
-                        </p>
-                      </div>
+                    <div className="text-center">
+                      <p className="text-lg sm:text-2xl text-muted-foreground mb-2">
+                        Was it cleaned?  Was it repaired?  Was the contract signed?
+                      </p>
+                      <p className="text-xl sm:text-3xl font-bold">
+                        Stop assuming. <span className="text-primary">Start knowing.</span>
+                      </p>
                     </div>
                     
-                    <div className="bg-secondary border-l-4 border-primary p-4 sm:p-6 rounded-lg shadow-sm">
-                      <p className="text-base sm:text-xl font-semibold text-foreground italic">
-                        {"Your company will benefit from using its data with AI to make faster decisions and manage operations with greater clarity and control."}
+                    <div className="bg-card border-l-4 border-primary p-5 sm:p-8 rounded-2xl shadow-sm">
+                      <p className="text-base sm:text-xl font-semibold text-foreground leading-relaxed">
+                        RentalBuddy connects your telemetry, bookings, and ground ops into one automated workflow.
                       </p>
+                      <p className="text-sm sm:text-lg text-muted-foreground mt-2">
+                        Total visibility. Zero assumptions. Nothing leaves your lot unchecked.
+                      </p>
+                    </div>
+                    
+                    {/* Results Section */}
+                    <div className="mt-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-6">
+                        Results Our Customers Are Seeing <span className="text-muted-foreground font-normal">— Live in Australia & USA</span>
+                      </h3>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                        {[
+                          { value: '75%', label: 'Faster check-in' },
+                          { value: '60%', label: 'Less manual workload' },
+                          { value: '>95%', label: 'Renters arrive verified' },
+                          { value: '3x', label: 'Scale, same team' },
+                        ].map((stat) => (
+                          <div key={stat.label} className="bg-card p-4 sm:p-6 rounded-xl border border-border text-center">
+                            <p className="text-3xl sm:text-5xl font-bold text-primary mb-2">{stat.value}</p>
+                            <p className="text-sm sm:text-base text-muted-foreground">{stat.label}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="bg-secondary p-6 sm:p-8 rounded-xl md:rounded-2xl border border-border shadow-md mt-6 md:mt-8">
@@ -855,35 +858,8 @@ export default function Page() {
                       </div>
                     </div>
 
-                    {/* CHANGE: Added What You Unlock section to 360 Sierra page */}
+                    {/* Single Source of Truth Section */}
                     <div className="mt-10 md:mt-16">
-                      <h3 className={`${sectionHeading} text-center mb-5 md:mb-8`}>
-                        What You Unlock
-                      </h3>
-                      
-                      <div className="space-y-3 sm:space-y-4 mb-8 md:mb-12">
-                        {[
-                          { value: '+40%', label: 'Efficiency' },
-                          { value: '+60%', label: 'Consistency' },
-                          { value: '2x', label: 'Scalability' },
-                        ].map((item) => (
-                          <div
-                            key={item.label}
-                            className="flex items-center justify-between gap-4 bg-card rounded-full px-4 py-3 border border-border shadow-sm"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary flex items-center justify-center">
-                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                </svg>
-                      </div>
-                              <span className="text-xl sm:text-3xl font-bold text-foreground">{item.value}</span>
-                      </div>
-                            <span className="text-base sm:text-2xl font-semibold text-foreground">{item.label}</span>
-                      </div>
-                        ))}
-                    </div>
-                    
                       <div className="bg-secondary p-6 sm:p-8 md:p-10 rounded-xl md:rounded-2xl border border-border shadow-lg">
                         <h3 className={`${sectionHeading} text-center mb-4 md:mb-6`}>
                           A Single Source of Truth
@@ -1395,15 +1371,7 @@ export default function Page() {
                               </div>
                                   
                               <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-200">
-                                <div className="bg-card p-4 sm:p-6 rounded-lg md:rounded-xl shadow-lg border-2 border-primary">
-                                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                                    <span className="text-xl sm:text-2xl font-bold text-foreground">PRICE:</span>
-                                    <span className="text-3xl sm:text-4xl font-black text-primary">USD $10</span>
-                                    <span className="text-base sm:text-xl font-semibold text-foreground">per vehicle per month</span>
-                                  </div>
-                                </div>
-                                
-                                <div className="mt-4 md:mt-6 flex justify-center">
+                                <div className="flex justify-center">
                                   <button
                                     onClick={async () => {
                                       const essentialsSelected = summarizeSelections(trackingEssentials, trackitEssentialsLabels)
@@ -1526,7 +1494,7 @@ export default function Page() {
                             </h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1">
                               {[
-                                { value: '80–90%', label: 'faster renter flow' },
+                                { value: '75%-85%', label: 'faster renter flow' },
                                 { value: '35–40%', label: 'shorter turnaround' },
                                 { value: '5–15%', label: 'more revenue\n(after-hours & better insurance rates)' },
                                 { value: '40–50%', label: 'fewer desk hours' },
@@ -1714,90 +1682,6 @@ export default function Page() {
                         </div>
                       </div>
 
-                      <div className="bg-card rounded-xl md:rounded-2xl border border-border shadow-lg overflow-hidden mt-6 md:mt-8">
-                        <button
-                          onClick={() => {
-                            // const currentState = pickupDropoffOpen // This line seems unused, removing it.
-                            setPricingOpen(!pricingOpen)
-                          }}
-                          className="w-full px-5 sm:px-8 py-4 sm:py-6 flex items-center justify-between bg-secondary hover:bg-secondary/80 transition-colors duration-200"
-                        >
-                          <h3 className="text-xl sm:text-2xl font-bold text-foreground">Pricing</h3>
-                          <FaChevronDown
-                            className={`w-5 h-5 sm:w-6 sm:h-6 text-primary transform transition-transform duration-300 ${
-                              pricingOpen ? 'rotate-180' : ''
-                            }`}
-                          />
-                        </button>
-
-                        <div
-                          className={`transition-all duration-300 ease-in-out ${
-                            pricingOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
-                          } overflow-hidden`}
-                        >
-                          <div className="p-5 sm:p-8">
-                            <div className="overflow-x-auto">
-                              <table className="w-full border-collapse bg-card rounded-lg shadow-sm">
-                                <thead>
-                                  <tr className="bg-secondary border-b-2 border-border">
-                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Tier</th>
-                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Monthly Rentals (range)</th>
-                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Suggested Monthly Fee</th>
-                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Cost per Rental</th>
-                                    <th className="px-4 py-3 text-left text-sm sm:text-base font-bold text-foreground">Notes</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {[
-                                    { tier: 'Tier 1', range: 'Up to 250', fee: '$450', cost: '$1.80', notes: 'Basic plan' },
-                                    { tier: 'Tier 2', range: '251–1,000', fee: '$950', cost: '$0.95', notes: 'Volume discount' },
-                                    { tier: 'Tier 3', range: '1,001–2,000', fee: '$1,500', cost: '$0.75', notes: 'Multi-branch growth' },
-                                    { tier: 'Tier 4', range: '2,001+', fee: 'Starting at $2,500', cost: '$0.60–$0.70', notes: 'Enterprise' },
-                                  ].map((row, idx) => (
-                                    <tr key={idx} className="border-b border-border hover:bg-secondary/30 transition-colors">
-                                      <td className="px-4 py-3 text-sm sm:text-base font-semibold text-primary">{row.tier}</td>
-                                      <td className="px-4 py-3 text-sm sm:text-base text-foreground">{row.range}</td>
-                                      <td className="px-4 py-3 text-sm sm:text-base font-semibold text-foreground">{row.fee}</td>
-                                      <td className="px-4 py-3 text-sm sm:text-base text-foreground">{row.cost}</td>
-                                      <td className="px-4 py-3 text-sm sm:text-base text-muted-foreground">{row.notes}</td>
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-
-                            <div className="mt-4 p-4 bg-secondary/50 rounded-lg border border-border">
-                              <p className="text-sm text-muted-foreground italic">
-                                Billed at the tier that covers your total completed rentals per calendar month. 
-                              </p>
-                            </div>
-
-                            <div className="mt-6 p-6 bg-card rounded-lg border-2 border-primary/30">
-                              <h4 className="text-lg font-bold text-foreground mb-4">What happens if you exceed your tier?</h4>
-                              <div className="space-y-3">
-                                <div className="flex items-start gap-3 p-4 bg-secondary rounded-lg border border-border">
-                                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                                    <FaCheckCircle className="text-primary text-xl" />
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-semibold text-foreground mb-1">Option A: Move up to the next tier</p>
-                                    <p className="text-xs text-muted-foreground">Upgrade to access the benefits of the next tier level</p>
-                                  </div>
-                                </div>
-                                <div className="flex items-start gap-3 p-4 bg-secondary rounded-lg border border-border">
-                                  <div className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
-                                    <FaCheckCircle className="text-primary text-xl" />
-                                  </div>
-                                  <div>
-                                    <p className="text-sm font-semibold text-foreground mb-1">Option B: Stay in your tier and pay only for the extra rentals</p>
-                                    <p className="text-xs text-muted-foreground">(at the per-rental rate of the tier you are currently in)</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   )}
 
